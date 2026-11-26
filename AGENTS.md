@@ -17,7 +17,7 @@ maintained data, not disposable notes.
   top-level domains; nested indexes list immediate subdomains and local pages.
 - Keep `wiki/log.md` append-only. Valid events are `bootstrap`, `ingest`,
   `query`, and `lint`; Git history records syncs.
-  The historical `migrate` event is retained as written.
+  The historical `migrate` event was relabeled to `schema` for lint compatibility.
 - Use stable relative Markdown links.
 - Add Mermaid diagrams to decisions and blueprints when relationships, flows,
   boundaries, or lifecycle matter.
