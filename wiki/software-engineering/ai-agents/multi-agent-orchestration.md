@@ -5,8 +5,8 @@ domain: software-engineering/ai-agents
 summary: "Use a coordinator and reasoning-matched agents for independent work while retaining clear ownership and approvals."
 status: draft
 tags: [swe, multi-agent, orchestration, delegation, codex]
-sources: ["2026-07-27-practical-multi-agent-orchestration-in-codex.md"]
-updated: 2026-07-27
+sources: ["2026-07-27-practical-multi-agent-orchestration-in-codex.md", "cca-0002-coordinators-and-subagents.md"]
+updated: 2026-11-26
 confidence: high
 ---
 
@@ -53,6 +53,11 @@ flowchart TD
 Concurrency is a budget, not a target. Count the coordinator in that budget and
 use only the agents whose work can proceed independently.
 
+This topology allows direct evidence handoffs. The [course lesson](cca-0002-coordinators-and-subagents.md)
+instead routes all messages through the coordinator for auditing, consistent
+error handling, and control over what each worker sees. Prefer that hub when
+those requirements apply; otherwise name the recipient and keep the coordinator informed.
+
 ## Assignment protocol
 
 1. State the expected artifact or answer and the evidence needed to accept it.
@@ -88,6 +93,11 @@ These choices carry different risks:
 - **Fresh context:** omits task-specific restrictions. Restate every essential
   safety, tool, mutation, and approval boundary in the assignment.
 
+Give a fresh synthesis worker the findings themselves, not a direction to
+read “the results above.” Pass each finding with its claim, supporting excerpt,
+source URL or document ID, and a locator such as a page number. Keep that
+attribution attached through summaries and handoffs.
+
 ## Coordination loop
 
 1. Assign independent discovery in parallel.
@@ -98,6 +108,11 @@ These choices carry different risks:
 5. Keep user communication and consequential approvals at the coordinator.
 6. Integrate results, resolve inconsistencies, and run proportionate final
    verification.
+
+Compare the assigned subtasks with the original request before accepting the
+synthesis. If every worker succeeded but a subject is missing, check whether
+anyone owned it. Assign targeted follow-up work and re-synthesize instead of
+asking the synthesis worker to fill an evidence gap.
 
 ## Failure modes and controls
 
@@ -128,7 +143,13 @@ These choices carry different risks:
 - Tests or other acceptance checks cover each changed scope.
 - The user retained control over consequential approvals.
 
-## Source
+## Related practices
 
-Synthesized from
-[Practical multi-agent orchestration in Codex](2026-07-27-practical-multi-agent-orchestration-in-codex.md).
+- [Deterministic tool gates and handoffs](deterministic-tool-gates-and-handoffs.md)
+- [Validating structured model output](validating-structured-model-output.md)
+- [Agent escalation and calibrated human review](agent-escalation-and-calibrated-human-review.md)
+
+## Sources
+
+- [Practical multi-agent orchestration in Codex](2026-07-27-practical-multi-agent-orchestration-in-codex.md)
+- [Claude Certified Architect: Coordinators and subagents](cca-0002-coordinators-and-subagents.md)

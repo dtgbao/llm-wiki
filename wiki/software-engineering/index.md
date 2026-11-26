@@ -6,4 +6,4 @@
 
 | Domain | Pages | Updated |
 |---|---|---|
-| [ai-agents](ai-agents/index.md) | 2 | 2026-07-27 |
+| [ai-agents](ai-agents/index.md) | 9 | 2026-11-26 |

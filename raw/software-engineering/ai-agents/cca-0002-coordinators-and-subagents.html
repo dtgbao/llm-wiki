@@ -1,0 +1,179 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Lesson 2: Coordinators and subagents</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<h1>Coordinators and subagents</h1>
+<p class="sub">Lesson 2 &middot; about 20 minutes &middot; Domain 1 (27%) &middot; Tasks 1.2, 1.3 &middot; <a href="../reference/coordinator-subagents.html">cheat sheet</a> &middot; <a href="../reference/syllabus.html">syllabus</a> &middot; prev: <a href="0001-the-agentic-loop.html">Lesson 1</a></p>
+
+<p><strong>Your win today:</strong> you will write what a subagent must receive, and find a coverage gap's root cause. Scenario 3 (multi-agent research) is built on these two skills.</p>
+
+<h2>Warm-up: from memory</h2>
+<div class="warm">
+<p>Answer these two before you read on. They re-test Lesson 1.</p>
+<div class="q" data-why="Your code produced the result, so it goes in the next user message as a tool_result block.">
+<p>W1. Your code ran a requested tool. Where does the result go?</p>
+<button>In the current assistant message</button>
+<button data-correct>In the next user message</button>
+<button>In an updated system prompt</button>
+<div class="fb"></div></div>
+<div class="q" data-why="max_turns cuts the run off. The model gets no final turn.">
+<p>W2. An Agent SDK run hits <code>max_turns</code>. What do you get?</p>
+<button>Another turn to finish the work</button>
+<button>Final answer, written in a hurry</button>
+<button data-correct>An error_max_turns result, no final answer</button>
+<div class="fb"></div></div>
+</div>
+
+<h2>Hub-and-spoke</h2>
+<pre><code>                ┌──────────── Coordinator ─────────────┐
+                │ decompose · select · route · merge    │
+                └──┬─────────┬──────────┬─────────┬────┘
+           prompt ↓↑ result  ↓↑         ↓↑        ↓↑
+              ┌────────┐ ┌────────┐ ┌──────────┐ ┌────────┐
+              │ Search │ │Analyze │ │Synthesize│ │ Report │
+              └────────┘ └────────┘ └──────────┘ └────────┘
+                 no arrows between subagents: all traffic goes through the hub</code></pre>
+<p>Route all communication through the coordinator. You get one place for observability, consistent error handling and controlled information flow (exam guide 1.2).</p>
+
+<h2>The coordinator's four jobs</h2>
+<table>
+<tr><th>Job</th><th>Good</th><th>Failure the exam shows you</th></tr>
+<tr><td>Decompose</td><td>Subtopics cover the whole topic, with no overlap</td><td>Too narrow: "creative industries" → only visual arts</td></tr>
+<tr><td>Select</td><td>Pick subagents by query complexity</td><td>Always run the full pipeline, even for one fact</td></tr>
+<tr><td>Delegate</td><td>Objective, output format, tools and sources, boundaries</td><td>Vague brief → duplicate searches, gaps</td></tr>
+<tr><td>Refine</td><td>Find gaps → targeted queries → synthesize again</td><td>Publish the first synthesis as-is</td></tr>
+</table>
+<p>Anthropic's research system gives each subagent "an objective, an output format, guidance on the tools and sources to use, and clear task boundaries." Without these, agents duplicate work and leave gaps. It also scales effort: one agent for a simple fact, many for complex research (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">Anthropic: multi-agent research system</a>).</p>
+<p class="note"><strong>Root-cause rule.</strong> Every subagent succeeds, but the report misses whole areas? Read the coordinator's subtask list first. The subagents did their assigned work correctly. The assignment was wrong.</p>
+<p>Give the coordinator <strong>goals and quality criteria</strong>, not step-by-step procedures. Goals let subagents adapt to what they find (exam guide 1.3).</p>
+
+<h2>Practice 1: partition the topic</h2>
+<p class="task-brief">Topic: "Impact of remote work on cities." You have four search subagents. Tick the four subtasks that cover the topic with no overlap.</p>
+<div class="ps" data-items='[
+ {"label":"Office real estate: vacancy, values, conversions","need":1,"why":"One distinct area of impact."},
+ {"label":"Office vacancy rates in New York only","need":0,"why":"Too narrow, and it overlaps the office real estate subtask."},
+ {"label":"Housing: prices, rents, migration out of cities","need":1,"why":"A distinct area. Covers where people live."},
+ {"label":"Public transit ridership and city tax budgets","need":1,"why":"A distinct area. Covers city finances and services."},
+ {"label":"Commercial property trends in big cities","need":0,"why":"Duplicates the office real estate subtask. Two agents would run the same searches."},
+ {"label":"Downtown retail, restaurants and street activity","need":1,"why":"A distinct area. Covers the local economy."}
+]'></div>
+
+<h2>Spawning subagents</h2>
+<pre><code>ClaudeAgentOptions(
+    allowed_tools=["Read", "Grep", "Agent"],   # exam guide: "Task". Without it: no subagents
+    agents={
+        "searcher": AgentDefinition(
+            description="Web research specialist. Use for finding sources.",  # WHEN to use
+            prompt="You find and cite primary sources...",                     # system prompt
+            tools=["WebSearch", "WebFetch"],                                    # scoped tools
+            model="sonnet",                                                     # optional
+        )})</code></pre>
+<p class="note"><strong>Name check.</strong> The exam guide calls the spawning tool <code>Task</code>. Current SDK docs call it <code>Agent</code>, and the init tool list still shows <code>Task</code> (<a href="https://platform.claude.com/docs/en/agent-sdk/subagents">Agent SDK: subagents</a>). On the exam, read "Task tool" as this tool.</p>
+<p><code>AgentDefinition</code> requires a <code>description</code> (when to use the agent) and a <code>prompt</code> (its system prompt). <code>tools</code> restricts what it can do. If you omit <code>tools</code>, it inherits every tool.</p>
+
+<h2>Context passing: only the prompt goes across</h2>
+<p>A subagent starts fresh. It does not see the coordinator's conversation. "The only content you pass from parent to subagent is the Agent tool's prompt string" (<a href="https://platform.claude.com/docs/en/agent-sdk/subagents">SDK docs</a>). Subagents do not share memory between calls.</p>
+<pre><code># BAD: the synthesis subagent cannot see "above"
+"Summarize the results above into a report."
+
+# GOOD: complete findings, content kept apart from metadata
+"Write a cited report on remote work and cities.
+ Findings:
+ [{"claim": "...", "excerpt": "...", "url": "...", "doc": "...", "page": 4}, ...]"</code></pre>
+<p>Structured records keep <strong>source attribution</strong> through each handoff (exam guide 1.3). Lesson 16 builds on this.</p>
+<p><strong>Exception:</strong> a <em>fork</em> copies the conversation so far, instead of starting fresh. Use a fork to try different approaches from one shared baseline.</p>
+
+<h2>Parallel: one response, many calls</h2>
+<pre><code>Coordinator response (ONE turn):        NOT this (three turns):
+  tool_use Agent → searcher: "housing"     turn 1: Agent → searcher
+  tool_use Agent → searcher: "transit"     turn 2: Agent → searcher
+  tool_use Agent → searcher: "retail"      turn 3: Agent → searcher</code></pre>
+<p>Parallel subagents finish in the time of the slowest one, not the sum (<a href="https://platform.claude.com/docs/en/agent-sdk/subagents">SDK docs</a>). Anthropic's lead agent runs 3–5 subagents in parallel. With parallel tool calls also inside the subagents, research time fell by up to 90% (<a href="https://www.anthropic.com/engineering/multi-agent-research-system">research system</a>).</p>
+
+<h2>Practice 2: brief the synthesis subagent</h2>
+<p class="task-brief">Search and document analysis are done. Tick what the coordinator must put in the synthesis subagent's prompt.</p>
+<div class="ps" data-items='[
+ {"label":"Objective: a cited report on remote work and cities","need":1,"why":"Every subagent needs an objective."},
+ {"label":"\"Use the results above\" (a pointer to the coordinator chat)","need":0,"why":"The subagent cannot see the coordinator chat. Only the prompt string goes across."},
+ {"label":"Complete findings from the search and analysis subagents","need":1,"why":"Context must be explicit. Nothing is inherited."},
+ {"label":"Each finding as {claim, excerpt, url, doc, page}","need":1,"why":"Keep content apart from metadata. This keeps attribution."},
+ {"label":"Fixed steps: \"read finding 1, then 2, then write para 1...\"","need":0,"why":"Give goals and quality criteria, not procedures. Procedures stop the agent from adapting."},
+ {"label":"Output format and quality criteria (sections, citations)","need":1,"why":"Every subagent needs an output format."},
+ {"label":"Boundary: report gaps to the coordinator; do not research","need":1,"why":"Clear task boundaries stop duplicate work. The coordinator owns re-delegation."}
+]'></div>
+
+<h2>Check yourself</h2>
+<div class="q" data-why="The logs show only solar subtasks. The subagents did their assigned work. The decomposition was too narrow.">
+<p>1. Topic: "renewable energy adoption in Asia." Each subagent succeeds, but the report covers only solar. The coordinator's subtasks were "solar in China," "solar in India," "rooftop solar costs." What is the root cause?</p>
+<button>Search agent used weak search queries</button>
+<button>Synthesis agent dropped the other sources</button>
+<button data-correct>Coordinator split the topic too narrowly</button>
+<button>Analysis agent filtered the sources strictly</button>
+<div class="fb"></div></div>
+
+<div class="q" data-select="2" data-why="Subagents inherit nothing. Put complete findings in the prompt, as structured records with metadata in separate fields.">
+<p>2. The synthesis subagent says it has no research data, though search finished. Which changes fix this and keep attribution?</p>
+<button>Let it read coordinator history directly</button>
+<button data-correct>Put full search findings in prompt</button>
+<button>Tell it to recall earlier results</button>
+<button data-correct>Keep source metadata in separate fields</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="The coordinator needs the spawning tool (Task in the guide, Agent in current docs) in allowedTools.">
+<p>3. A coordinator cannot spawn any subagents. Every AgentDefinition is valid. What is the most likely cause?</p>
+<button>The subagent descriptions are short</button>
+<button>tool_choice is set to auto</button>
+<button>Subagents lack a model field</button>
+<button data-correct>allowedTools lacks the Task tool</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Several Task calls in one response run in parallel. One call per turn runs them in sequence.">
+<p>4. The coordinator spawns search and analysis subagents in separate turns. The run is slow. What is the fix?</p>
+<button data-correct>Emit both Task calls in one response</button>
+<button>Give one subagent all of the tools</button>
+<button>Use a faster model for each subagent</button>
+<div class="fb"></div></div>
+
+<div class="q" data-select="2" data-why="Objective, output format, tool guidance and boundaries. Not a fixed procedure, and the subagent cannot use the coordinator's history.">
+<p>5. Which items belong in a coordinator's brief to a subagent?</p>
+<button data-correct>Objective and required output format</button>
+<button>An exact step-by-step search procedure</button>
+<button data-correct>Task boundaries versus other agents</button>
+<button>The coordinator's whole conversation history</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Select subagents by query complexity. A simple fact needs one agent, not the full pipeline.">
+<p>6. Users ask simple facts, such as a company's founding year. The coordinator always runs all four subagents. What is the best change?</p>
+<button>Run the full pipeline for consistency</button>
+<button data-correct>Select subagents by the query complexity</button>
+<button>Add a fifth subagent for checks</button>
+<button>Cache all results from earlier runs</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Iterative refinement: find gaps, send targeted queries to search and analysis, then synthesize again.">
+<p>7. The coordinator finds that the synthesis has no data on transit. What should it do?</p>
+<button>Publish the report and note gaps</button>
+<button>Ask synthesis to infer missing facts</button>
+<button>Restart the entire pipeline from scratch</button>
+<button data-correct>Send targeted queries again, then re-synthesize</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="A fork copies the conversation so far. A normal subagent starts fresh.">
+<p>8. How does a forked subagent differ from a normal subagent?</p>
+<button>It starts with an empty context</button>
+<button data-correct>It copies the conversation so far</button>
+<button>It shares memory with every subagent</button>
+<div class="fb"></div></div>
+<p class="score" id="score"></p>
+
+<h2>Explain it</h2>
+<div class="task">
+<p>Close this page. In the chat, answer in 3–4 sentences:</p>
+<p><em>"A synthesis subagent writes a report with no citations, though the search subagent found sources. Name two likely causes and the fix for each."</em></p>
+</div>
+
+<h2>Read next</h2>
+<p>Primary source: <a href="https://www.anthropic.com/engineering/multi-agent-research-system">Anthropic: How we built our multi-agent research system</a>. Read the section "Prompt engineering and evaluations for research agents." Then read "What subagents inherit" in <a href="https://platform.claude.com/docs/en/agent-sdk/subagents">Agent SDK: subagents</a>.</p>
+<p>Next: <a href="0003-hooks-gates-handoffs.html">Lesson 3</a> covers enforcement: prerequisite gates, hooks and handoffs (tasks 1.4, 1.5).</p>
+<p class="note">Questions? Ask your teacher in the chat. Examples: when a fork beats a fresh subagent, or how many subagents a coordinator should spawn.</p>
+</main>
+<script src="../assets/quiz.js"></script><script src="../assets/pick-set.js"></script></body></html>

@@ -9,4 +9,4 @@ History: [log.md](log.md). Schema: [AGENTS.md](../AGENTS.md).
 | Domain | Pages | Updated |
 |---|---|---|
 | [aws](aws/index.md) | 22 | 2026-07-30 |
-| [software-engineering](software-engineering/index.md) | 2 | 2026-07-27 |
+| [software-engineering](software-engineering/index.md) | 9 | 2026-11-26 |

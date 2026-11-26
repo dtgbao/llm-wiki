@@ -6,10 +6,22 @@
 
 | Page | Summary | Tags | Updated | Sources |
 |---|---|---|---|---|
+| [Claude Certified Architect: Coordinators and subagents](cca-0002-coordinators-and-subagents.md) | Delegate complete, non-overlapping assignments and pass source-attributed findings explicitly to synthesis. | claude-certified-architect, orchestration, delegation | 2026-11-26 | 1 |
+| [Claude Certified Architect: Escalation and human review](cca-0015-escalation-and-human-review.md) | Use policy-based escalation in support and calibrate extraction review with segmented accuracy and ongoing sampling. | claude-certified-architect, escalation, human-review | 2026-11-26 | 1 |
+| [Claude Certified Architect: Hooks, gates and handoffs](cca-0003-hooks-gates-handoffs.md) | Enforce consequential tool prerequisites before execution and send a self-contained handoff when policy blocks an action. | claude-certified-architect, tool-use, guardrails | 2026-11-26 | 1 |
+| [Claude Certified Architect: Structured output and validation](cca-0012-structured-output-and-validation.md) | Use a schema for output shape, validate facts in code, and retry only when the input can support a correction. | claude-certified-architect, structured-output, validation | 2026-11-26 | 1 |
 | [Practical multi-agent orchestration in Codex](2026-07-27-practical-multi-agent-orchestration-in-codex.md) | The article describes role-based Codex delegation with bounded assignments, distinct owners, and coordinated verification. | swe, multi-agent, codex, orchestration, delegation | 2026-07-27 | 1 |
+
+## Practices
+
+| Page | Summary | Tags | Updated | Sources |
+|---|---|---|---|---|
+| [Agent escalation and calibrated human review](agent-escalation-and-calibrated-human-review.md) | Define explicit support escalation criteria and use calibrated field-level evidence to route and audit extraction review. | escalation, human-review | 2026-11-26 | 1 |
+| [Deterministic tool gates and handoffs](deterministic-tool-gates-and-handoffs.md) | Block unsafe or unauthorized tool calls before they run and give the next actor enough evidence to act. | tool-use, guardrails | 2026-11-26 | 1 |
+| [Validating structured model output](validating-structured-model-output.md) | Validate meaning independently of schema compliance and retry only when the source can support a correction. | structured-output, validation | 2026-11-26 | 1 |
 
 ## Blueprints
 
 | Page | Summary | Tags | Updated | Sources |
 |---|---|---|---|---|
-| [Multi-agent orchestration blueprint](multi-agent-orchestration.md) | Use a coordinator and reasoning-matched agents for independent work while retaining clear ownership and approvals. | swe, multi-agent, orchestration, delegation, codex | 2026-07-27 | 1 |
+| [Multi-agent orchestration blueprint](multi-agent-orchestration.md) | Use a coordinator and reasoning-matched agents for independent work while retaining clear ownership and approvals. | swe, multi-agent, orchestration, delegation, codex | 2026-11-26 | 2 |
