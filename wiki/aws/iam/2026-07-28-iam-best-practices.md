@@ -2,9 +2,10 @@
 title: "IAM Best Practices"
 kind: source
 domain: aws/iam
+summary: "The lesson recommends protecting the root user, scoping permissions, requiring MFA, and auditing access."
 status: draft
 tags: [swe, aws, iam, security, best-practices, root-user, federation, mfa, roles, access-keys, least-privilege]
-sources: ["../../../../raw/aws/iam/2026-07-28-iam-best-practices.txt", "../../../../raw/aws/iam/2026-07-28-iam-guidelines-best-practices-slide.png", "../../../../raw/aws/iam/2026-07-28-iam-section-summary-slide.png"]
+sources: ["../../../raw/aws/iam/2026-07-28-iam-best-practices.txt", "../../../raw/aws/iam/2026-07-28-iam-guidelines-best-practices-slide.png", "../../../raw/aws/iam/2026-07-28-iam-section-summary-slide.png"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -18,8 +19,8 @@ confidence: medium
 - Lesson: IAM Best Practices
 - Instructor: Stephane Maarek
 - Source type: user-provided video transcript and two lesson slides
-- Transcript: [raw transcript](../../../../raw/aws/iam/2026-07-28-iam-best-practices.txt)
-- Visuals: [guidelines slide](../../../../raw/aws/iam/2026-07-28-iam-guidelines-best-practices-slide.png) and [section-summary slide](../../../../raw/aws/iam/2026-07-28-iam-section-summary-slide.png)
+- Transcript: [raw transcript](../../../raw/aws/iam/2026-07-28-iam-best-practices.txt)
+- Visuals: [guidelines slide](../../../raw/aws/iam/2026-07-28-iam-guidelines-best-practices-slide.png) and [section-summary slide](../../../raw/aws/iam/2026-07-28-iam-section-summary-slide.png)
 - Ingested: 2026-07-28
 
 ## Summary
@@ -38,12 +39,12 @@ rather than guaranteeing safety.
 
 ## Source Visuals
 
-![IAM guidelines and best practices slide](../../../../raw/aws/iam/2026-07-28-iam-guidelines-best-practices-slide.png)
+![IAM guidelines and best practices slide](../../../raw/aws/iam/2026-07-28-iam-guidelines-best-practices-slide.png)
 
 The first slide presents the lesson checklist and emphasizes never sharing IAM
 users or access keys.
 
-![IAM section summary slide](../../../../raw/aws/iam/2026-07-28-iam-section-summary-slide.png)
+![IAM section summary slide](../../../raw/aws/iam/2026-07-28-iam-section-summary-slide.png)
 
 The section-summary slide recaps users, groups, policies, roles, MFA, password
 policy, CLI and SDK access, access keys, credential reports, and Access Advisor.
@@ -104,11 +105,11 @@ policy, CLI and SDK access, access keys, credential reports, and Access Advisor.
 
 ## Impacted Pages
 
-- [AWS IAM security baseline](../aws-iam-security-baseline.md)
-- [AWS Identity and Access Management (IAM)](../aws-identity-and-access-management.md)
-- [Least-privilege access with AWS IAM](../least-privilege-access-with-aws-iam.md)
-- [AWS programmatic credential handling](../aws-programmatic-credential-handling.md)
-- [Reviewing AWS IAM credentials and permissions](../reviewing-aws-iam-credentials-and-permissions.md)
+- [AWS IAM security baseline](aws-iam-security-baseline.md)
+- [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
+- [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
+- [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
+- [Reviewing AWS IAM credentials and permissions](reviewing-aws-iam-credentials-and-permissions.md)
 
 ## Open Questions
 

@@ -1,0 +1,199 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Lesson 3: Hooks, gates and handoffs</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<h1>Hooks, gates and handoffs</h1>
+<p class="sub">Lesson 3 &middot; about 20 minutes &middot; Domain 1 (27%) &middot; Tasks 1.4, 1.5 &middot; <a href="../reference/hooks-gates-handoffs.html">cheat sheet</a> &middot; <a href="../reference/syllabus.html">syllabus</a> &middot; prev: <a href="0002-coordinators-and-subagents.html">Lesson 2</a></p>
+
+<p><strong>Your win today:</strong> you will decide when a rule needs code, not prompt text. Then you will write a handoff that a human can act on. Scenario 1 (customer support) tests both.</p>
+
+<h2>Warm-up: from memory</h2>
+<div class="warm">
+<p>These re-test your weak spot: what crosses a boundary.</p>
+<div class="q" data-why="A subagent starts fresh. Only the Task prompt string crosses. Put everything it needs in that string.">
+<p>W1. What does a normal (not forked) subagent receive from the coordinator?</p>
+<button>All of the coordinator's conversation history</button>
+<button>A shared memory of earlier calls</button>
+<button data-correct>Only the prompt string you pass</button>
+<div class="fb"></div></div>
+<div class="q" data-why="Inference invents facts. Send targeted queries to search and analysis, then synthesize again.">
+<p>W2. The synthesis has a coverage gap. What does the coordinator do?</p>
+<button data-correct>Re-delegate targeted queries, then re-synthesize</button>
+<button>Ask synthesis to infer facts</button>
+<button>Publish now, fix gaps later</button>
+<div class="fb"></div></div>
+<div class="q" data-why="Your code ran the tool, so the result goes in the next user message.">
+<p>W3. Where does a <code>tool_result</code> block go?</p>
+<button>In the same assistant message</button>
+<button data-correct>In the next user message</button>
+<button>In an updated system prompt</button>
+<div class="fb"></div></div>
+</div>
+
+<h2>The core rule: probabilistic vs deterministic</h2>
+<table>
+<tr><th>Control</th><th>Type</th><th>Failure rate</th><th>Use for</th></tr>
+<tr><td>System prompt, few-shot examples</td><td>Probabilistic</td><td>Low, but <strong>not zero</strong></td><td>Tone, style, judgment, preferences</td></tr>
+<tr><td>Hooks, prerequisite gates</td><td>Deterministic</td><td>Zero (code runs every time)</td><td>Money, identity, security, compliance</td></tr>
+</table>
+<p>When an error has financial or compliance consequences, prompt instructions alone are not enough. Use code (exam guide 1.4, 1.5).</p>
+<p class="note"><strong>Exam pattern.</strong> "The agent skips step X in 12% of cases. X must always happen first." Options B and C strengthen the prompt or add few-shot examples. Option A adds a programmatic gate. A is correct (exam guide, sample Q1).</p>
+
+<h2>Practice 1: code or prompt?</h2>
+<p class="task-brief">You build the support agent. Tick each rule that needs deterministic enforcement (a hook or gate).</p>
+<div class="ps" data-items='[
+ {"label":"Verify identity with get_customer before any refund","need":1,"why":"Money moves. A wrong account means a wrong refund. Gate it in code."},
+ {"label":"Use a warm, friendly tone","need":0,"why":"Style. A prompt is enough. A rare miss costs little."},
+ {"label":"Never issue a refund above $500 without a human","need":1,"why":"A business rule with financial impact. Intercept the call."},
+ {"label":"Suggest a related product when it helps","need":0,"why":"Judgment. The model must decide case by case."},
+ {"label":"Remove card numbers from tool output before Claude sees it","need":1,"why":"Compliance. A PostToolUse hook rewrites the output every time."},
+ {"label":"Keep answers under 120 words","need":0,"why":"Style preference. A prompt is enough."}
+]'></div>
+
+<h2>Hook 1: prerequisite gate (PreToolUse)</h2>
+<p>A <code>PreToolUse</code> hook runs before a tool executes. It can allow, deny or modify the call (<a href="https://platform.claude.com/docs/en/agent-sdk/hooks">Agent SDK: hooks</a>).</p>
+<pre><code>verified = {"customer_id": None}
+GATED = {"mcp__support__lookup_order", "mcp__support__process_refund"}
+
+async def record_verified(inp, tool_use_id, ctx):          # PostToolUse on get_customer
+    if inp["tool_response"].get("verified"):
+        verified["customer_id"] = inp["tool_response"]["customer_id"]
+    return {}
+
+async def gate(inp, tool_use_id, ctx):                      # PreToolUse
+    if inp["tool_name"] in GATED and not verified["customer_id"]:
+        return {"hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": "deny",                     # the call never runs
+            "permissionDecisionReason": "Verify identity with get_customer first."}}
+    return {}                                                 # empty = allow</code></pre>
+<p><code>permissionDecisionReason</code> tells the model why the call failed. The model then calls <code>get_customer</code> and tries again. Allowed values are <code>allow</code>, <code>deny</code>, <code>ask</code> and <code>defer</code>. You can also return <code>updatedInput</code> to rewrite the arguments (<a href="https://platform.claude.com/docs/en/agent-sdk/hooks">SDK docs</a>).</p>
+
+<h2>Hook 2: policy interception and redirect</h2>
+<pre><code>async def refund_limit(inp, tool_use_id, ctx):              # PreToolUse, matcher: process_refund
+    if inp["tool_input"]["amount"] &gt; 500:
+        return {"hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": "deny",
+            "permissionDecisionReason":
+              "Refunds over $500 need a human. Call escalate_to_human with a handoff summary."}}
+    return {}</code></pre>
+<p>The deny blocks the violation. The reason <strong>redirects</strong> the agent to the alternative workflow: human escalation.</p>
+
+<h2>Hook 3: normalize data (PostToolUse)</h2>
+<p>A <code>PostToolUse</code> hook runs after the tool returns and before Claude sees the result. Set <code>updatedToolOutput</code> to replace the output. Set <code>additionalContext</code> to append to it (<a href="https://platform.claude.com/docs/en/agent-sdk/hooks">SDK docs</a>).</p>
+<pre><code>Raw output from three MCP tools          After the PostToolUse hook
+order_svc:   {"placed": 1730851200}         {"placed": "2024-11-06"}
+billing_svc: {"date": "2024-11-06T00:00Z"}  {"date":   "2024-11-06"}
+ship_svc:    {"status": 3}                  {"status": "shipped"}</code></pre>
+<p>One format reaches the model. The model does not convert anything, so it makes no conversion errors.</p>
+
+<h2>Multi-concern requests</h2>
+<pre><code>"Refund my damaged order #8812, and why was I charged twice in May?"
+      │ decompose
+      ├── Item 1: damaged order → lookup_order, policy        ┐ in parallel,
+      └── Item 2: double charge → billing history             ┘ shared customer ID
+      │ synthesize
+      └── ONE reply that resolves both</code></pre>
+
+<h2>Structured handoff</h2>
+<p>The human agent does not have the conversation transcript. So the escalation must carry everything they need to act.</p>
+<pre><code>{"customer_id": "C-77",            "issue": "Refund request, order #8812, damaged",
+ "root_cause": "Carrier damage; photo confirms",
+ "attempted": ["verified identity", "checked damage policy"],
+ "refund_amount": 640.00,          "blocked_by": "refund > $500 limit",
+ "recommended_action": "Approve full refund of $640"}</code></pre>
+
+<h2>Practice 2: build the handoff</h2>
+<p class="task-brief">A $640 refund was blocked and escalated. Tick what the handoff summary must contain.</p>
+<div class="ps" data-items='[
+ {"label":"Verified customer ID","need":1,"why":"The human must find the right account."},
+ {"label":"\"See the conversation above for details\"","need":0,"why":"The human has no transcript. This is the same boundary rule as subagents."},
+ {"label":"Root cause found so far","need":1,"why":"The human should not repeat the investigation."},
+ {"label":"Refund amount and the rule that blocked it","need":1,"why":"States what decision is needed, and why the agent stopped."},
+ {"label":"The agent’s self-rated confidence, 1 to 10","need":0,"why":"Self-reported confidence is poorly calibrated. Lesson 15 covers this."},
+ {"label":"Recommended action","need":1,"why":"Lets the human approve or reject quickly."},
+ {"label":"Raw output of all 40 tool calls","need":0,"why":"Noise. Summarize the facts that matter."}
+]'></div>
+
+<h2>Check yourself</h2>
+<div class="q" data-why="The step must always happen. Only a programmatic gate gives a deterministic guarantee. Prompt text and examples stay probabilistic.">
+<p>1. In 8% of cases, the agent calls <code>process_refund</code> before <code>get_customer</code>. Some refunds go to the wrong account. What is the most effective fix?</p>
+<button>Bold the verification rule in prompt</button>
+<button>Add few-shot examples of verification first</button>
+<button data-correct>Block process_refund until verified ID exists</button>
+<button>Route requests through a tool classifier</button>
+<div class="fb"></div></div>
+
+<div class="q" data-select="2" data-why="A PreToolUse deny blocks the call. Its reason redirects the agent to escalation. A prompt is probabilistic, and a PostToolUse log acts too late.">
+<p>2. Policy: refunds above $500 need a human. Which two parts together enforce it?</p>
+<button data-correct>PreToolUse hook denies refunds over 500</button>
+<button data-correct>Deny reason points to human escalation</button>
+<button>Prompt asks agent to respect limit</button>
+<button>PostToolUse hook logs every large refund</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Normalize once, in code, before the model reads the data. Then every result has one format.">
+<p>3. Three MCP tools return dates as Unix seconds, ISO 8601 and "11/06/24". The agent misreads order ages. What is the best fix?</p>
+<button>Explain all three formats in prompt</button>
+<button data-correct>PostToolUse hook normalizes formats before Claude</button>
+<button>Ask Claude to convert each date</button>
+<button>Remove date fields from all results</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="permissionDecisionReason tells the model why the call was denied, so it can recover.">
+<p>4. A PreToolUse hook returns <code>deny</code> with a <code>permissionDecisionReason</code>. What does the reason do?</p>
+<button>It is logged, never shown</button>
+<button>It ends the whole session</button>
+<button data-correct>It tells the model why</button>
+<div class="fb"></div></div>
+
+<div class="q" data-select="2" data-why="Tone and product suggestions are judgment and style. A rare miss costs little, so a prompt is enough.">
+<p>5. For which rules is prompt guidance alone acceptable?</p>
+<button data-correct>Tone and style of replies</button>
+<button>Identity check before money moves</button>
+<button data-correct>When to suggest related products</button>
+<button>Blocking writes to secret files</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Decompose into items, investigate each in parallel with the shared customer context, then send one unified reply.">
+<p>6. A customer asks for a refund on a damaged order and about a double charge in May. How should the agent work?</p>
+<button>Answer the first issue, ignore the second</button>
+<button>Escalate at once because there are two</button>
+<button>Ask the customer to send two tickets</button>
+<button data-correct>Split into two items, investigate both, merge</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="The human has no transcript. A structured summary with ID, root cause, amount and recommended action lets them act.">
+<p>7. The agent escalates to a human who cannot see the transcript. What should it send?</p>
+<button>A link to the full conversation</button>
+<button data-correct>Structured summary: ID, cause, amount, action</button>
+<button>The agent's own confidence score only</button>
+<button>Every raw tool result, fully unfiltered</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Prompt compliance is probabilistic. Even a small failure rate is unacceptable when money moves.">
+<p>8. Why is a prompt instruction not enough to enforce identity checks before refunds?</p>
+<button data-correct>It has a non-zero failure rate</button>
+<button>Claude ignores system prompts by default</button>
+<button>Prompts cannot mention any tool names</button>
+<button>Hooks run faster than prompt text</button>
+<div class="fb"></div></div>
+<p class="score" id="score"></p>
+
+<h2>Explain it</h2>
+<div class="task">
+<p>Close this page. In the chat, copy this template and fill each line:</p>
+<pre><code>Situation: the refund agent skips identity checks in 5% of runs.
+           A colleague proposes stronger prompt wording.
+Decision:  ...
+Why the prompt fix fails: ...
+Mechanism (hook event + field + value): ...
+What the model sees after a block: ...</code></pre>
+</div>
+
+<h2>Read next</h2>
+<p>Primary source: <a href="https://platform.claude.com/docs/en/agent-sdk/hooks">Agent SDK: Intercept and control agent behavior with hooks</a>. Read "How hooks work," "Outputs" and the example "Add context and block a tool."</p>
+<p>Next: <a href="0004-decomposition-and-sessions.html">Lesson 4</a> covers task decomposition and session management (tasks 1.6, 1.7).</p>
+<p class="note">Questions? Ask your teacher in the chat. Examples: hook vs <code>allowedTools</code>, or when to use <code>ask</code> instead of <code>deny</code>.</p>
+</main>
+<script src="../assets/quiz.js"></script><script src="../assets/pick-set.js"></script></body></html>

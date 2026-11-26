@@ -2,9 +2,10 @@
 title: "IAM Security Tools"
 kind: source
 domain: aws/iam
+summary: "The lesson introduces the IAM credential report and last-accessed information for reviewing AWS access."
 status: draft
 tags: [swe, aws, iam, security, credential-report, access-advisor, last-accessed, least-privilege, audit]
-sources: ["../../../../raw/aws/iam/2026-07-28-iam-security-tools.txt", "../../../../raw/aws/iam/2026-07-28-iam-security-tools-slide.png"]
+sources: ["../../../raw/aws/iam/2026-07-28-iam-security-tools.txt", "../../../raw/aws/iam/2026-07-28-iam-security-tools-slide.png"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -18,7 +19,7 @@ confidence: medium
 - Section: `4: IAM and AWS CLI`
 - Lesson: `IAM Security Tools`
 - Instructor: Stephane Maarek, identified by the slide copyright.
-- Assets: [transcript](../../../../raw/aws/iam/2026-07-28-iam-security-tools.txt) and [IAM security tools slide](../../../../raw/aws/iam/2026-07-28-iam-security-tools-slide.png)
+- Assets: [transcript](../../../raw/aws/iam/2026-07-28-iam-security-tools.txt) and [IAM security tools slide](../../../raw/aws/iam/2026-07-28-iam-security-tools-slide.png)
 - Ingested: 2026-07-28
 
 ## Summary
@@ -39,7 +40,7 @@ limitations that must be considered before changing access.
 
 ## Source Visual
 
-![IAM credential report and Access Advisor course slide](../../../../raw/aws/iam/2026-07-28-iam-security-tools-slide.png)
+![IAM credential report and Access Advisor course slide](../../../raw/aws/iam/2026-07-28-iam-security-tools-slide.png)
 
 ## SWE Extraction
 
@@ -119,13 +120,13 @@ limitations that must be considered before changing access.
 
 ## Impacted Pages
 
-- [Reviewing AWS IAM credentials and permissions](../reviewing-aws-iam-credentials-and-permissions.md)
+- [Reviewing AWS IAM credentials and permissions](reviewing-aws-iam-credentials-and-permissions.md)
   — durable account-inventory and evidence-driven permission-review workflow.
-- [AWS Identity and Access Management (IAM)](../aws-identity-and-access-management.md)
+- [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
   — adds security-review telemetry and scope boundaries.
-- [AWS programmatic credential handling](../aws-programmatic-credential-handling.md)
+- [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
   — adds periodic credential inventory and validation before deactivation.
-- [Least-privilege access with AWS IAM](../least-privilege-access-with-aws-iam.md)
+- [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
   — adds a last-accessed-data refinement loop and interpretation safeguards.
 
 ## Open Questions

@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Lesson 12: Structured output and validation</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<h1>Structured output and validation</h1>
+<p class="sub">Lesson 12 &middot; about 20 minutes &middot; Domain 4 (20%) &middot; Tasks 4.3, 4.4 &middot; <a href="../reference/structured-output-and-validation.html">cheat sheet</a> &middot; <a href="../reference/syllabus.html">syllabus</a> &middot; prev: <a href="0011-explicit-criteria-and-few-shot.html">Lesson 11</a></p>
+
+<p><strong>Your win today:</strong> you will get schema-compliant JSON from Claude with a tool and a <code>tool_choice</code> setting. Then you will design a retry that corrects the errors a schema cannot prevent.</p>
+
+<h2>Warm-up: from memory</h2>
+<div class="warm">
+<div class="q" data-why="A named category improves precision. A confidence filter and 'be conservative' do not.">
+<p>W1. A review gives too many false positives. Which instruction improves precision?</p>
+<button>Only high-confidence findings</button>
+<button>Be more conservative</button>
+<button data-correct>Report bugs only</button>
+<div class="fb"></div></div>
+<div class="q" data-why="Disable the noisy category to restore trust. Improve its prompt, then enable it again.">
+<p>W2. One category has 70% false positives. Developers ignore all findings. What is the first action?</p>
+<button data-correct>Disable that category</button>
+<button>Raise the threshold</button>
+<button>Delete all findings</button>
+<div class="fb"></div></div>
+<div class="q" data-why="Examples guide the model. Only a hook gives deterministic enforcement (Lesson 3).">
+<p>W3. A business rule must never be broken. Which mechanism enforces it?</p>
+<button>Few-shot examples</button>
+<button data-correct>A hook</button>
+<button>Longer prompt</button>
+<div class="fb"></div></div>
+</div>
+
+<h2>Structured output with a tool</h2>
+<p>Tool use with a JSON schema is the most reliable approach for schema-compliant output. It eliminates JSON syntax errors (exam guide 4.3). You define an extraction tool. The schema is the tool's input. You read the data from the <code>tool_use</code> block.</p>
+<pre><code>tools = [{
+  "name": "extract_invoice",
+  "description": "Record the fields of one invoice.",
+  "strict": True,
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "invoice_number":  {"type": "string"},
+      "po_number":       {"type": ["string", "null"]},     # source can lack it
+      "category":        {"enum": ["goods", "services", "other", "unclear"]},
+      "category_detail": {"type": ["string", "null"]},     # text when "other"
+      "stated_total":    {"type": "number"},
+      "calculated_total":{"type": "number"},               # sum of line items
+      "conflict_detected": {"type": "boolean"}
+    },
+    "required": ["invoice_number", "po_number", "category", "category_detail",
+                 "stated_total", "calculated_total", "conflict_detected"],
+    "additionalProperties": False
+  }
+}]
+
+response.content → [{"type": "tool_use", "name": "extract_invoice",
+                     "input": { ...your structured data... }}]</code></pre>
+<p>Source: <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/implement-tool-use">Claude API: tool use</a> and <a href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs">Structured outputs</a>.</p>
+
+<h2>tool_choice</h2>
+<table>
+<tr><th>Setting</th><th>Model behavior</th><th>Use it when</th></tr>
+<tr><td><code>{"type": "auto"}</code></td><td>Can return text and call no tool</td><td>A text answer is acceptable</td></tr>
+<tr><td><code>{"type": "any"}</code></td><td>Must call a tool. It chooses which one</td><td>Several extraction schemas; unknown document type</td></tr>
+<tr><td><code>{"type": "tool", "name": "extract_metadata"}</code></td><td>Must call that named tool</td><td>One extraction must run first, before enrichment</td></tr>
+</table>
+<p class="note"><strong>Guide vs docs.</strong> The exam follows the table above. The docs add one limit: the newest models (for example Claude Opus 5.5 and Sonnet 5.5) reject <code>any</code> and <code>tool</code> with a 400 error. Manual extended thinking rejects them too. There, use <code>auto</code> with <code>strict: true</code>, or structured outputs (<code>output_config.format</code>).</p>
+
+<h2>Syntax errors and semantic errors</h2>
+<pre><code>                         A strict schema...
+Syntax    missing brace, wrong type, missing required field      ELIMINATES
+Semantic  line items do not sum to the total                     DOES NOT PREVENT
+          a value is in the wrong field                          DOES NOT PREVENT
+          a value is fabricated for a required field             DOES NOT PREVENT</code></pre>
+
+<h2>Schema design</h2>
+<table>
+<tr><th>Problem</th><th>Schema design</th></tr>
+<tr><td>The source can lack the information; the model fabricates a value</td><td>Make the field <strong>nullable</strong>, not a required value</td></tr>
+<tr><td>A case is ambiguous</td><td>Add the enum value <code>"unclear"</code></td></tr>
+<tr><td>New categories appear later</td><td>Enum with <code>"other"</code> + a detail string field</td></tr>
+<tr><td>Source formats are inconsistent (dates, currency)</td><td>Put format normalization rules in the prompt, next to the strict schema</td></tr>
+</table>
+
+<h2>Practice 1: does the schema prevent it?</h2>
+<p class="task-brief">Tick each error that a <strong>strict schema eliminates</strong>.</p>
+<div class="ps" data-items='[
+ {"label":"A missing closing brace in the JSON","need":1,"why":"A syntax error. Tool use eliminates it."},
+ {"label":"Line items that do not sum to the total","need":0,"why":"A semantic error. Validate it in code."},
+ {"label":"A string where the schema needs a number","need":1,"why":"A type error. The schema prevents it."},
+ {"label":"The vendor name in the customer field","need":0,"why":"Wrong field placement is semantic."},
+ {"label":"A required field that is missing","need":1,"why":"The schema guarantees required fields."},
+ {"label":"An invented PO number when the document has none","need":0,"why":"Fabrication is semantic. Make the field nullable."}
+]'></div>
+
+<h2>Validation and retry</h2>
+<pre><code>extract ──► validate in code ──► pass ──► done
+                 │
+                 └─ fail ──► follow-up request with:
+                              1. the original document
+                              2. the failed extraction
+                              3. the specific validation errors
+                             ("calculated_total 410.00 ≠ stated_total 440.00")</code></pre>
+<table>
+<tr><th>A retry works</th><th>A retry does not work</th></tr>
+<tr><td>Format mismatch (date, currency)</td><td>The information is absent from the source</td></tr>
+<tr><td>Structural output error</td><td>The information is only in an external document that you did not provide</td></tr>
+<tr><td>Values in the wrong field; sums that do not match</td><td></td></tr>
+</table>
+<p><strong>Self-correction fields.</strong> Extract <code>calculated_total</code> next to <code>stated_total</code>. Your code compares them and flags a discrepancy. Add a <code>conflict_detected</code> boolean for inconsistent source data.</p>
+<p><strong>Feedback loop.</strong> Add a <code>detected_pattern</code> field to each finding. It records the code construct that triggered the finding. When developers dismiss findings, you group the dismissals by pattern and find the false positive patterns (exam guide 4.4).</p>
+
+<h2>Practice 2: will a retry work?</h2>
+<p class="task-brief">Tick each failure that a <strong>retry with error feedback</strong> can correct.</p>
+<div class="ps" data-items='[
+ {"label":"The date is \"3/4/26\" and the schema needs ISO format","need":1,"why":"A format mismatch. The error message guides the fix."},
+ {"label":"The warranty terms are in a contract that you did not provide","need":0,"why":"The information is not in the context. Provide the document."},
+ {"label":"The line items sum to 410.00; the extracted total is 440.00","need":1,"why":"A semantic error with a specific message. The model can check again."},
+ {"label":"The source document has no PO number","need":0,"why":"Absent information. Return null."},
+ {"label":"The vendor name is in the customer field","need":1,"why":"Wrong field placement. Specific feedback corrects it."},
+ {"label":"The signature page is not in the scanned file","need":0,"why":"Absent information. A retry cannot create it."}
+]'></div>
+
+<h2>Check yourself</h2>
+<div class="q" data-why="Tool use with a JSON schema is the most reliable approach. It eliminates JSON syntax errors.">
+<p>1. Which approach gives guaranteed schema-compliant structured output?</p>
+<button>A prompt that asks for JSON</button>
+<button data-correct>Tool use with a JSON schema</button>
+<button>A regex that repairs the output</button>
+<button>A retry until the JSON parses</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="any: the model must call a tool, and it chooses the schema that fits the document. auto can return text.">
+<p>2. You have three extraction tools. The document type is unknown. The output must always be structured. Which tool_choice?</p>
+<button>The none setting</button>
+<button>The auto setting</button>
+<button>A forced tool</button>
+<button data-correct>The any setting</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why='Forced selection, {"type": "tool", "name": "extract_metadata"}, guarantees that this tool runs.'>
+<p>3. extract_metadata must run before the enrichment steps. How do you guarantee this?</p>
+<button data-correct>Force the tool by name</button>
+<button>Set the tool_choice to any</button>
+<button>Set the tool_choice to auto</button>
+<button>Ask politely in the prompt</button>
+<div class="fb"></div></div>
+
+<div class="q" data-select="2" data-why="Sums and field placement are semantic. The schema eliminates syntax and type errors only.">
+<p>4. Which two errors can remain when you use a strict schema?</p>
+<button data-correct>Line items not summing to total</button>
+<button>A missing closing brace in JSON</button>
+<button data-correct>A value in the wrong field</button>
+<button>A string where number is required</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="A required value forces the model to fabricate. A nullable field lets it return null.">
+<p>5. Some source documents have no PO number. The model invents one. What is the fix?</p>
+<button>Add the field to required list</button>
+<button>Retry until a value is returned</button>
+<button data-correct>Make the field nullable, not required</button>
+<button>Raise max_tokens for the whole request</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why='"other" plus a detail string keeps the enum strict and still accepts new categories.'>
+<p>6. New categories will appear later. Which schema design handles them?</p>
+<button>A free-text string with no enum</button>
+<button>An enum of only known values</button>
+<button>A boolean flag for each category</button>
+<button data-correct>An enum with other plus detail</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="The follow-up request includes the original document, the failed extraction and the specific validation errors.">
+<p>7. Validation fails: the totals do not match. What does the retry request contain?</p>
+<button data-correct>Original document, failed extraction, specific errors</button>
+<button>Only the words please try again</button>
+<button>The same prompt with nothing added</button>
+<button>A new document from another source</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="A retry cannot create information that is not in the source. Format and structure errors are correctable.">
+<p>8. When is a retry ineffective?</p>
+<button>The date format is wrong</button>
+<button>Values sit in wrong fields</button>
+<button data-correct>The source lacks the information</button>
+<button>The nested structure is wrong</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="detected_pattern records the code construct that triggered a finding. You can then analyze the dismissal patterns.">
+<p>9. Developers dismiss many findings. You want to see which code constructs cause the false positives. Which field do you add?</p>
+<button>A conflict_detected field</button>
+<button data-correct>A detected_pattern field</button>
+<button>A calculated_total field</button>
+<button>A stated_total field</button>
+<div class="fb"></div></div>
+<p class="score" id="score"></p>
+
+<h2>Explain it</h2>
+<div class="task">
+<p>Close this page. In the chat, copy this template. Each line needs only a few words.</p>
+<pre><code>1. Three schemas, unknown document type. tool_choice: ...
+2. One error that a strict schema does NOT prevent: ...
+3. The source can lack a field. Required value or nullable? ...
+4. Three things in a retry request: original document, ..., ...</code></pre>
+</div>
+
+<h2>Read next</h2>
+<p>Primary source: <a href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs">Anthropic: Structured outputs</a>. Read "Why use structured outputs". Then read "Forcing tool use" in <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/implement-tool-use">the tool use guide</a>.</p>
+<p>Next: <a href="0013-batch-and-multi-pass-review.html">Lesson 13</a> covers the Message Batches API and multi-pass review (tasks 4.5, 4.6).</p>
+<p class="note">Questions? Ask your teacher in the chat. Examples: how strict mode differs from tool_choice, or how many retries are sensible.</p>
+</main>
+<script src="../assets/quiz.js"></script><script src="../assets/pick-set.js"></script></body></html>

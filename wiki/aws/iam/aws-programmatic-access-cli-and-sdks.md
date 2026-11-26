@@ -2,9 +2,10 @@
 title: "AWS programmatic access: CLI and SDKs"
 kind: system
 domain: aws/iam
+summary: "Use the AWS CLI for command-line operations and SDKs for application code, with temporary credentials where possible."
 status: draft
 tags: [swe, aws, cli, sdk, api, credentials, automation, programmatic-access]
-sources: ["sources/2026-07-28-aws-access-keys-cli-and-sdk.md", "sources/2026-07-28-iam-roles-for-aws-services.md", "https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html", "https://docs.aws.amazon.com/sdkref/latest/guide/access.html", "https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html", "https://docs.aws.amazon.com/boto3/latest/guide/quickstart.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"]
+sources: ["2026-07-28-aws-access-keys-cli-and-sdk.md", "2026-07-28-iam-roles-for-aws-services.md", "https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html", "https://docs.aws.amazon.com/sdkref/latest/guide/access.html", "https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html", "https://docs.aws.amazon.com/boto3/latest/guide/quickstart.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -97,8 +98,8 @@ version and is not an authentication contract.
 - [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
 - [AWS IAM roles for services](aws-iam-roles-for-services.md)
 - [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
-- [Source lesson](sources/2026-07-28-aws-access-keys-cli-and-sdk.md)
-- [IAM roles for AWS services source](sources/2026-07-28-iam-roles-for-aws-services.md)
+- [Source lesson](2026-07-28-aws-access-keys-cli-and-sdk.md)
+- [IAM roles for AWS services source](2026-07-28-iam-roles-for-aws-services.md)
 - [AWS CLI introduction](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
 - [AWS SDK and tool authentication](https://docs.aws.amazon.com/sdkref/latest/guide/access.html)
 - [AWS standardized credential providers](https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html)

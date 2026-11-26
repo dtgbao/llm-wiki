@@ -2,9 +2,10 @@
 title: "IAM Roles for AWS Services"
 kind: source
 domain: aws/iam
+summary: "The lesson describes IAM roles that grant EC2, Lambda, and CloudFormation permissions to act on AWS resources."
 status: draft
 tags: [swe, aws, iam, roles, service-roles, temporary-credentials, ec2, lambda, cloudformation]
-sources: ["../../../../raw/aws/iam/2026-07-28-iam-roles-for-aws-services.txt", "../../../../raw/aws/iam/2026-07-28-iam-roles-for-services-slide.png"]
+sources: ["../../../raw/aws/iam/2026-07-28-iam-roles-for-aws-services.txt", "../../../raw/aws/iam/2026-07-28-iam-roles-for-services-slide.png"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -18,7 +19,7 @@ confidence: medium
 - Section: `4: IAM and AWS CLI`
 - Lesson: `IAM Roles for AWS Services`
 - Instructor: Stephane Maarek, identified by the slide copyright.
-- Assets: [transcript](../../../../raw/aws/iam/2026-07-28-iam-roles-for-aws-services.txt) and [IAM roles for services slide](../../../../raw/aws/iam/2026-07-28-iam-roles-for-services-slide.png)
+- Assets: [transcript](../../../raw/aws/iam/2026-07-28-iam-roles-for-aws-services.txt) and [IAM roles for services slide](../../../raw/aws/iam/2026-07-28-iam-roles-for-services-slide.png)
 - Ingested: 2026-07-28
 
 ## Summary
@@ -36,7 +37,7 @@ temporary credentials for a role session.
 
 ## Source Visual
 
-![IAM role associated with an EC2 instance course slide](../../../../raw/aws/iam/2026-07-28-iam-roles-for-services-slide.png)
+![IAM role associated with an EC2 instance course slide](../../../raw/aws/iam/2026-07-28-iam-roles-for-services-slide.png)
 
 ## SWE Extraction
 
@@ -112,16 +113,16 @@ controls which role the principal can associate with a service.
 
 ## Impacted Pages
 
-- [AWS IAM roles for services](../aws-iam-roles-for-services.md)
+- [AWS IAM roles for services](aws-iam-roles-for-services.md)
   — durable trust, permission, assumption, temporary-credential, and
   service-specific model.
-- [AWS Identity and Access Management (IAM)](../aws-identity-and-access-management.md)
+- [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
   — adds roles to the IAM identity and policy model.
-- [AWS programmatic credential handling](../aws-programmatic-credential-handling.md)
+- [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
   — connects workload roles to automatically refreshed temporary credentials.
-- [Least-privilege access with AWS IAM](../least-privilege-access-with-aws-iam.md)
+- [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
   — adds service-role trust and `iam:PassRole` review guidance.
-- [AWS programmatic access: CLI and SDKs](../aws-programmatic-access-cli-and-sdks.md)
+- [AWS programmatic access: CLI and SDKs](aws-programmatic-access-cli-and-sdks.md)
   — cross-links runtime role credentials with SDK and CLI provider chains.
 
 ## Open Questions

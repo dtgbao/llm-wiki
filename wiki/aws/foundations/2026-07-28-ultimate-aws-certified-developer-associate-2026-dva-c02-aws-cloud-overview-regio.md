@@ -2,9 +2,10 @@
 title: "Ultimate AWS Certified Developer Associate 2026 DVA-C02 — AWS Cloud Overview: Region & AZ"
 kind: source
 domain: aws/foundations
+summary: "The course transcript describes Regions, Availability Zones, edge locations, and criteria for choosing a Region."
 status: draft
 tags: [swe, aws, cloud, infrastructure, regions, availability-zones]
-sources: ["../../../../raw/aws/foundations/2026-07-28-aws-cloud-overview-region-and-availability-zones.txt"]
+sources: ["../../../raw/aws/foundations/2026-07-28-aws-cloud-overview-region-and-availability-zones.txt"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -13,7 +14,7 @@ confidence: medium
 
 ## Provenance
 
-- Source: [Provided video transcript](../../../../raw/aws/foundations/2026-07-28-aws-cloud-overview-region-and-availability-zones.txt)
+- Source: [Provided video transcript](../../../raw/aws/foundations/2026-07-28-aws-cloud-overview-region-and-availability-zones.txt)
 - Course: `Ultimate AWS Certified Developer Associate 2026 DVA-C02`
 - Lesson: `AWS Cloud Overview - Region & AZ`
 - Format: Plain-text transcript; instructor, video URL, and publication date were not supplied.
@@ -117,10 +118,10 @@ as current operational facts without checking authoritative AWS material.
 
 ## Impacted Pages
 
-- [AWS global infrastructure and service scope](../aws-global-infrastructure.md)
+- [AWS global infrastructure and service scope](aws-global-infrastructure.md)
   — geographic hierarchy, failure boundaries, network relationships, and
   service-scope implications.
-- [Selecting an AWS Region](../selecting-an-aws-region.md) — reusable
+- [Selecting an AWS Region](selecting-an-aws-region.md) — reusable
   decision sequence, tradeoffs, and revalidation triggers.
 
 ## Open Questions

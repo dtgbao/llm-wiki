@@ -2,9 +2,10 @@
 title: "Amazon VPC security groups"
 kind: system
 domain: aws/vpc/security-groups
+summary: "Security groups are stateful allow lists attached to network interfaces, not a complete network reachability check."
 status: draft
 tags: [swe, aws, ec2, vpc, security-groups, network-security, firewall, stateful, ingress, egress, ports, troubleshooting]
-sources: ["sources/2026-07-30-security-groups-and-classic-ports-overview.md", "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html", "https://docs.aws.amazon.com/vpc/latest/userguide/default-security-group.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/changing-security-group.html", "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-assoc.html", "https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-security.html", "https://docs.aws.amazon.com/vpc/latest/userguide/monitoring.html", "https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html", "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml", "https://www.rfc-editor.org/info/rfc959/", "https://www.rfc-editor.org/info/rfc9110/"]
+sources: ["2026-07-30-security-groups-and-classic-ports-overview.md", "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-rules.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html", "https://docs.aws.amazon.com/vpc/latest/userguide/default-security-group.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/changing-security-group.html", "https://docs.aws.amazon.com/vpc/latest/userguide/security-group-assoc.html", "https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-security.html", "https://docs.aws.amazon.com/vpc/latest/userguide/monitoring.html", "https://docs.aws.amazon.com/securityhub/latest/userguide/ec2-controls.html", "https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml", "https://www.rfc-editor.org/info/rfc959/", "https://www.rfc-editor.org/info/rfc9110/"]
 updated: 2026-07-30
 confidence: medium
 ---
@@ -213,7 +214,7 @@ and [VPC Flow Logs](https://docs.aws.amazon.com/vpc/latest/userguide/flow-logs-b
 
 ## Related
 
-- [Security Groups and Classic Ports Overview source](sources/2026-07-30-security-groups-and-classic-ports-overview.md)
+- [Security Groups and Classic Ports Overview source](2026-07-30-security-groups-and-classic-ports-overview.md)
 - [AWS global infrastructure and service scope](../../foundations/aws-global-infrastructure.md)
 - [Amazon EC2 instance types](../../ec2/amazon-ec2-instance-types.md)
 - [AWS VPC infrastructure-security guidance](https://docs.aws.amazon.com/vpc/latest/userguide/infrastructure-security.html)

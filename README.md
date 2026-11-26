@@ -1,4 +1,4 @@
-# SWE Wiki
+# LLM Wiki
 
 A persistent, Git-synced software engineering knowledge base. Sources preserve
 provenance; the wiki turns them into reusable concepts, decisions, blueprints,
@@ -10,20 +10,23 @@ linted.
 
 ## Knowledge model
 
-- `raw/` holds immutable local source material.
-- `wiki/sources/` records one source's provenance, summary, extracted knowledge,
-  impacted pages, and open questions.
-- Durable pages synthesize knowledge that should remain useful independently:
+- `raw/<domain>/` holds immutable local source material.
+- Source records in `wiki/<domain>/` track provenance, summary, extracted
+  knowledge, impacted pages, and open questions.
+- Durable pages live alongside source records. The frontmatter `kind` describes
+  the type of reusable knowledge:
 
-| Directory | Content |
+| Kind | Content |
 | --- | --- |
-| `concepts/` | Ideas, tradeoffs, algorithms, patterns, and failure modes |
-| `decisions/` | ADR-like decisions, alternatives, and consequences |
-| `blueprints/` | Reusable architectures, protocols, data flows, and build plans |
-| `practices/` | Checklists, testing strategies, and operational playbooks |
-| `conventions/` | Coding, API, logging, documentation, and naming rules |
-| `systems/` | Frameworks, libraries, services, tools, and vendors |
-| `questions/` | Durable answers produced while querying the wiki |
+| `overview` | A map and synthesis of a domain |
+| `entity` | A named product, tool, person, or organization |
+| `concept` | Ideas, tradeoffs, algorithms, patterns, and failure modes |
+| `decision` | ADR-like decisions, alternatives, and consequences |
+| `blueprint` | Reusable architectures, protocols, data flows, and build plans |
+| `practice` | Checklists, testing strategies, and operational playbooks |
+| `convention` | Coding, API, logging, documentation, and naming rules |
+| `system` | Frameworks, libraries, services, tools, and vendors |
+| `question` | Durable answers produced while querying the wiki |
 
 Every durable claim should lead back to its source. Prefer updating an existing
 page over creating a near-duplicate.
@@ -34,18 +37,11 @@ page over creating a near-duplicate.
 .
 ├── README.md
 ├── AGENTS.md
-├── raw/
+├── raw/<domain>/
 ├── wiki/
 │   ├── index.md
 │   ├── log.md
-│   ├── sources/
-│   ├── concepts/
-│   ├── decisions/
-│   ├── blueprints/
-│   ├── practices/
-│   ├── conventions/
-│   ├── systems/
-│   └── questions/
+│   └── <domain>/       # source and durable pages, plus a generated index.md
 └── .obsidian/          # Obsidian vault settings
 ```
 
@@ -54,7 +50,7 @@ knowledge remains plain Markdown and works without Obsidian.
 
 ## Working with the wiki
 
-Use the `$swe-wiki` skill for maintained operations:
+Use the [`llm-wiki` skill](https://github.com/dtgbao/agent-skills/tree/main/plugins/llm-wiki) for maintained operations:
 
 - **Ingest:** read one source fully, preserve its provenance, and update reusable
   pages.

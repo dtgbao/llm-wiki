@@ -1,6 +1,6 @@
-# SWE Wiki Agent Instructions
+# LLM Wiki Agent Instructions
 
-Use the `$swe-wiki` skill for setup, ingestion, durable queries, linting, and
+Use the `llm-wiki` skill for setup, ingestion, durable queries, linting, and
 sync. This repository is the persistent knowledge base; treat its Markdown as
 maintained data, not disposable notes.
 
@@ -12,10 +12,12 @@ maintained data, not disposable notes.
 - File each page and its raw material under one primary lowercase domain such
   as `aws/iam`; use tags and cross-links for secondary domains.
 - Keep page kind in frontmatter rather than in kind-based directories.
+- Keep source records alongside durable pages in their primary domain.
 - Maintain an `index.md` in every knowledge directory. The root index lists
   top-level domains; nested indexes list immediate subdomains and local pages.
 - Keep `wiki/log.md` append-only. Valid events are `bootstrap`, `ingest`,
   `query`, and `lint`; Git history records syncs.
+  The historical `migrate` event is retained as written.
 - Use stable relative Markdown links.
 - Add Mermaid diagrams to decisions and blueprints when relationships, flows,
   boundaries, or lifecycle matter.
@@ -28,6 +30,7 @@ Every page under `wiki/` except `index.md` and `log.md` requires:
 title: "Readable title"
 kind: concept
 domain: aws/iam
+summary: "One plain sentence of no more than 160 characters."
 status: draft
 tags: [swe]
 sources: []
@@ -37,7 +40,9 @@ confidence: medium
 ```
 
 Allowed `kind` values: `source`, `concept`, `decision`, `blueprint`, `practice`,
-`convention`, `system`, `question`.
+`convention`, `system`, `question`, `overview`, `entity`.
+
+<!-- llm-wiki:extra-kinds: blueprint, convention, system -->
 
 Allowed `status` values: `draft`, `evergreen`, `superseded`. Allowed
 `confidence` values: `high`, `medium`, `low`.

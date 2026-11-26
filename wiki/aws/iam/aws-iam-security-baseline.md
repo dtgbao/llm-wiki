@@ -2,9 +2,10 @@
 title: "AWS IAM security baseline"
 kind: practice
 domain: aws/iam
+summary: "Protect root access, favor federation and temporary credentials, enforce MFA, and regularly review access."
 status: draft
 tags: [swe, aws, iam, security, identity, federation, identity-center, mfa, root-user, roles, temporary-credentials, least-privilege, access-review, shared-responsibility, governance]
-sources: ["sources/2026-07-28-iam-best-practices.md", "sources/2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/gs-identities-mfa.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html", "https://docs.aws.amazon.com/sdkref/latest/guide/access-temp-idc.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html", "https://aws.amazon.com/compliance/shared-responsibility-model/", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id-credentials-access-keys-update.html"]
+sources: ["2026-07-28-iam-best-practices.md", "2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/gs-identities-mfa.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html", "https://docs.aws.amazon.com/sdkref/latest/guide/access-temp-idc.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html", "https://aws.amazon.com/compliance/shared-responsibility-model/", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id-credentials-access-keys-update.html"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -147,8 +148,8 @@ credential.
 - [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
 - [Reviewing AWS IAM credentials and permissions](reviewing-aws-iam-credentials-and-permissions.md)
 - [AWS IAM roles for services](aws-iam-roles-for-services.md)
-- [IAM Best Practices source](sources/2026-07-28-iam-best-practices.md)
-- [Shared Responsibility Model for IAM source](sources/2026-07-28-shared-responsibility-model-for-iam.md)
+- [IAM Best Practices source](2026-07-28-iam-best-practices.md)
+- [Shared Responsibility Model for IAM source](2026-07-28-shared-responsibility-model-for-iam.md)
 - [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/)
 - [AWS IAM security best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 - [AWS root-user best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html)

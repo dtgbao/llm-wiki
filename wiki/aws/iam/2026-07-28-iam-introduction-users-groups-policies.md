@@ -2,9 +2,10 @@
 title: "IAM Introduction: Users, Groups, Policies"
 kind: source
 domain: aws/iam
+summary: "The lesson introduces IAM users, groups, and policies and explains how to organize access by job function."
 status: draft
 tags: [swe, aws, iam, identity, access-control, policies, least-privilege]
-sources: ["../../../../raw/aws/iam/2026-07-28-iam-introduction-users-groups-policies.txt", "../../../../raw/aws/iam/2026-07-28-iam-users-and-groups-slide.png", "../../../../raw/aws/iam/2026-07-28-iam-permissions-policy-slide.png"]
+sources: ["../../../raw/aws/iam/2026-07-28-iam-introduction-users-groups-policies.txt", "../../../raw/aws/iam/2026-07-28-iam-users-and-groups-slide.png", "../../../raw/aws/iam/2026-07-28-iam-permissions-policy-slide.png"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -18,7 +19,7 @@ confidence: medium
 - Section: `4: IAM & AWS CLI`
 - Lesson: `IAM Introduction: Users, Groups, Policies`
 - Instructor: Stephane Maarek, identified by the transcript label and slide copyright.
-- Assets: [transcript](../../../../raw/aws/iam/2026-07-28-iam-introduction-users-groups-policies.txt), [users and groups slide](../../../../raw/aws/iam/2026-07-28-iam-users-and-groups-slide.png), and [permissions slide](../../../../raw/aws/iam/2026-07-28-iam-permissions-policy-slide.png)
+- Assets: [transcript](../../../raw/aws/iam/2026-07-28-iam-introduction-users-groups-policies.txt), [users and groups slide](../../../raw/aws/iam/2026-07-28-iam-users-and-groups-slide.png), and [permissions slide](../../../raw/aws/iam/2026-07-28-iam-permissions-policy-slide.png)
 - Ingested: 2026-07-28
 
 ## Summary
@@ -37,9 +38,9 @@ person needs because excessive access creates both security and cost risk.
 
 ## Source Visuals
 
-![IAM users and groups course slide](../../../../raw/aws/iam/2026-07-28-iam-users-and-groups-slide.png)
+![IAM users and groups course slide](../../../raw/aws/iam/2026-07-28-iam-users-and-groups-slide.png)
 
-![IAM permissions course slide](../../../../raw/aws/iam/2026-07-28-iam-permissions-policy-slide.png)
+![IAM permissions course slide](../../../raw/aws/iam/2026-07-28-iam-permissions-policy-slide.png)
 
 ## SWE Extraction
 
@@ -133,11 +134,11 @@ types, or whether individual actions support resource-level scoping.
 
 ## Impacted Pages
 
-- [AWS Identity and Access Management (IAM)](../aws-identity-and-access-management.md)
+- [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
   — durable service model for users, groups, policies, and the root boundary.
-- [Least-privilege access with AWS IAM](../least-privilege-access-with-aws-iam.md)
+- [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
   — reusable access-design and review practice.
-- [AWS global infrastructure and service scope](../../foundations/aws-global-infrastructure.md)
+- [AWS global infrastructure and service scope](../foundations/aws-global-infrastructure.md)
   — adds this lesson as corroborating evidence that IAM is global.
 
 ## Open Questions

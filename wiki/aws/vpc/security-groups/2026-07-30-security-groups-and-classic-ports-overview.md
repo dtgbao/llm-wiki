@@ -2,9 +2,10 @@
 title: "Security Groups and Classic Ports Overview"
 kind: source
 domain: aws/vpc/security-groups
+summary: "The course transcript and slides cover security group rules, group references, and common network ports."
 status: draft
 tags: [swe, aws, ec2, vpc, security-groups, network-security, firewall, stateful, ports, ssh, rdp, troubleshooting]
-sources: ["../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-and-classic-ports-overview.txt", "../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-introduction-slide.png", "../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-deeper-dive-slide.png", "../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-traffic-diagram-slide.png", "../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-good-to-know-slide.png", "../../../../../raw/aws/vpc/security-groups/2026-07-30-security-group-references-diagram-slide.png", "../../../../../raw/aws/vpc/security-groups/2026-07-30-classic-ports-slide.png"]
+sources: ["../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-and-classic-ports-overview.txt", "../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-introduction-slide.png", "../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-deeper-dive-slide.png", "../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-traffic-diagram-slide.png", "../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-good-to-know-slide.png", "../../../../raw/aws/vpc/security-groups/2026-07-30-security-group-references-diagram-slide.png", "../../../../raw/aws/vpc/security-groups/2026-07-30-classic-ports-slide.png"]
 updated: 2026-07-30
 confidence: medium
 ---
@@ -18,8 +19,8 @@ confidence: medium
 - Lesson: Security Groups and Classic Ports Overview
 - Instructor and slide copyright: Stephane Maarek
 - Source type: user-provided video transcript and six lesson slides
-- Transcript: [raw transcript](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-and-classic-ports-overview.txt)
-- Visuals: [introduction](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-introduction-slide.png), [deeper dive](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-deeper-dive-slide.png), [traffic diagram](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-traffic-diagram-slide.png), [good to know](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-good-to-know-slide.png), [security-group references](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-group-references-diagram-slide.png), and [classic ports](../../../../../raw/aws/vpc/security-groups/2026-07-30-classic-ports-slide.png)
+- Transcript: [raw transcript](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-and-classic-ports-overview.txt)
+- Visuals: [introduction](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-introduction-slide.png), [deeper dive](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-deeper-dive-slide.png), [traffic diagram](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-traffic-diagram-slide.png), [good to know](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-good-to-know-slide.png), [security-group references](../../../../raw/aws/vpc/security-groups/2026-07-30-security-group-references-diagram-slide.png), and [classic ports](../../../../raw/aws/vpc/security-groups/2026-07-30-classic-ports-slide.png)
 - Ingested: 2026-07-30
 - Current-guidance check: official AWS VPC and EC2 documentation reviewed on 2026-07-30
 
@@ -40,41 +41,41 @@ eligible non-default group available to multiple VPCs in one Region.
 
 ## Source Visuals
 
-![Introduction to security groups slide](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-introduction-slide.png)
+![Introduction to security groups slide](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-introduction-slide.png)
 
 The introduction presents security groups as EC2 network firewalls with
 inbound and outbound allow rules whose peers can be IP ranges or other security
 groups.
 
-![Security groups deeper-dive slide](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-deeper-dive-slide.png)
+![Security groups deeper-dive slide](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-deeper-dive-slide.png)
 
 The rule table demonstrates protocol, destination port, source CIDR, and
 description fields. It includes public HTTP and custom application rules plus
 a single-address SSH rule; the wide custom-port example is instructional, not
 a least-privilege production default.
 
-![Security groups traffic diagram slide](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-traffic-diagram-slide.png)
+![Security groups traffic diagram slide](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-traffic-diagram-slide.png)
 
 The diagram contrasts an authorized SSH source with an unauthorized one and
 shows the source-era allow-all egress default. It does not show security-group
 statefulness or the other routing and filtering layers required for
 reachability.
 
-![Security groups good-to-know slide](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-good-to-know-slide.png)
+![Security groups good-to-know slide](../../../../raw/aws/vpc/security-groups/2026-07-30-security-groups-good-to-know-slide.png)
 
 The slide captures many-to-many attachment, scope, management-access
 separation, timeout-versus-refused troubleshooting, and default ingress and
 egress. Several bullets are useful heuristics but not exhaustive diagnoses or
 current scope contracts.
 
-![Referencing other security groups diagram slide](../../../../../raw/aws/vpc/security-groups/2026-07-30-security-group-references-diagram-slide.png)
+![Referencing other security groups diagram slide](../../../../raw/aws/vpc/security-groups/2026-07-30-security-group-references-diagram-slide.png)
 
 The diagram shows a target rule accepting a particular port from members of
 two groups while not accepting members of a third group. A reference selects
 private-IP traffic from associated network interfaces; it does not copy or
 inherit the referenced group's rules.
 
-![Classic ports slide](../../../../../raw/aws/vpc/security-groups/2026-07-30-classic-ports-slide.png)
+![Classic ports slide](../../../../raw/aws/vpc/security-groups/2026-07-30-classic-ports-slide.png)
 
 The port mnemonic covers FTP control on 21, SSH and commonly SFTP on 22, HTTP
 on 80, HTTPS on 443, and RDP on 3389. These are registered or conventional
@@ -222,7 +223,7 @@ actual protocol, destination port, and source or destination.
 
 ## Impacted Pages
 
-- [Amazon VPC security groups](../amazon-vpc-security-groups.md) —
+- [Amazon VPC security groups](amazon-vpc-security-groups.md) —
   durable rule evaluation, statefulness, references, scope, exposure, ports,
   and troubleshooting guidance.
 

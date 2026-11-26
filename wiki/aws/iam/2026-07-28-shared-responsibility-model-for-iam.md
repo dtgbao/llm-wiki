@@ -2,9 +2,10 @@
 title: "Shared Responsibility Model for IAM"
 kind: source
 domain: aws/iam
+summary: "The lesson distinguishes AWS responsibility for IAM infrastructure from customer responsibility for identity and access settings."
 status: draft
 tags: [swe, aws, iam, security, shared-responsibility, governance, mfa, access-keys, permissions, monitoring, compliance]
-sources: ["../../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam.txt", "../../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam-slide.png"]
+sources: ["../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam.txt", "../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam-slide.png"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -19,7 +20,7 @@ confidence: medium
 - Instructor: Stephane Maarek, identified by the slide copyright
 - Source type: user-provided video transcript and one lesson slide
 - Context note: the transcript mentions the CCP exam even though this lesson was submitted under the DVA-C02 course.
-- Assets: [raw transcript](../../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam.txt) and [shared-responsibility slide](../../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam-slide.png)
+- Assets: [raw transcript](../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam.txt) and [shared-responsibility slide](../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam-slide.png)
 - Ingested: 2026-07-28
 
 ## Summary
@@ -36,7 +37,7 @@ one exclusive owner.
 
 ## Source Visual
 
-![Shared Responsibility Model for IAM course slide](../../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam-slide.png)
+![Shared Responsibility Model for IAM course slide](../../../raw/aws/iam/2026-07-28-shared-responsibility-model-for-iam-slide.png)
 
 The slide places global infrastructure, service configuration and
 vulnerability analysis, and compliance validation on the AWS side. It places
@@ -101,11 +102,11 @@ analysis, and permission review on the customer side.
 
 ## Impacted Pages
 
-- [AWS shared responsibility model for IAM](../aws-shared-responsibility-model-for-iam.md)
-- [AWS Identity and Access Management (IAM)](../aws-identity-and-access-management.md)
-- [AWS IAM security baseline](../aws-iam-security-baseline.md)
-- [AWS programmatic credential handling](../aws-programmatic-credential-handling.md)
-- [Reviewing AWS IAM credentials and permissions](../reviewing-aws-iam-credentials-and-permissions.md)
+- [AWS shared responsibility model for IAM](aws-shared-responsibility-model-for-iam.md)
+- [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
+- [AWS IAM security baseline](aws-iam-security-baseline.md)
+- [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
+- [Reviewing AWS IAM credentials and permissions](reviewing-aws-iam-credentials-and-permissions.md)
 
 ## Open Questions
 

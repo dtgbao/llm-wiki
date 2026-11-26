@@ -1,0 +1,228 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Lesson 15: Escalation and human review</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="../assets/style.css"></head>
+<body><main>
+<h1>Escalation and human review</h1>
+<p class="sub">Lesson 15 &middot; about 20 minutes &middot; Domain 5 (15%) &middot; Tasks 5.2, 5.5 &middot; <a href="../reference/escalation-and-human-review.html">cheat sheet</a> &middot; <a href="../reference/syllabus.html">syllabus</a> &middot; prev: <a href="0014-context-management.html">Lesson 14</a></p>
+
+<p><strong>Your win today:</strong> you will decide when an agent escalates to a person and when it resolves the case. Then you will decide when it is safe to reduce human review of extractions.</p>
+
+<h2>Warm-up: from memory</h2>
+<div class="warm">
+<div class="q" data-why="An instruction cannot restore lost context. A scratchpad file keeps the findings outside the context.">
+<p>W1. In a long session, the findings from hour 0 are no longer effective. What restores them?</p>
+<button>A stricter instruction</button>
+<button data-correct>A scratchpad file</button>
+<button>A longer prompt</button>
+<div class="fb"></div></div>
+<div class="q" data-why="/compact reduces context usage when verbose discovery output fills the session.">
+<p>W2. Verbose discovery output fills the session. Which command reduces context usage?</p>
+<button>/memory</button>
+<button>/plan</button>
+<button data-correct>/compact</button>
+<div class="fb"></div></div>
+<div class="q" data-why="The model processes the beginning and the end reliably. The key findings summary goes at the beginning.">
+<p>W3. Where do the key findings go in a long input?</p>
+<button data-correct>At the beginning</button>
+<button>In the middle</button>
+<button>Spread across sections</button>
+<div class="fb"></div></div>
+</div>
+
+<h2>The scenario: the agent escalates the wrong cases</h2>
+<p>Your support agent has 55% first-contact resolution. The target is 80% (sample Q3). The logs show two errors:</p>
+<pre><code>Easy case   standard damage replacement, photo attached    → the agent ESCALATES   ✗
+Hard case   the customer wants a policy exception          → the agent RESOLVES    ✗</code></pre>
+<p>The problem is unclear decision boundaries. The agent does not know what an escalation case is.</p>
+
+<h2>Escalation triggers</h2>
+<table>
+<tr><th>Escalate</th><th>Do not escalate only because of</th></tr>
+<tr><td>1. The customer <strong>asks for a human</strong></td><td>A complex case that the policy covers</td></tr>
+<tr><td>2. A <strong>policy exception or gap</strong>: the policy is ambiguous or silent</td><td>Negative sentiment</td></tr>
+<tr><td>3. The agent <strong>cannot make meaningful progress</strong></td><td>A low self-reported confidence score</td></tr>
+</table>
+<p class="note"><strong>Why sentiment and confidence fail.</strong> Both are unreliable proxies for case complexity. An angry customer can have a simple case. The agent is frequently confident on the hard cases that it handles incorrectly.</p>
+
+<h2>Four situations, four actions</h2>
+<table>
+<tr><th>Situation</th><th>Action</th></tr>
+<tr><td>"Let me talk to a human."</td><td>Escalate <strong>immediately</strong>. Do not investigate first</td></tr>
+<tr><td>The customer is frustrated but did not ask for a human. The issue is within the agent's capability</td><td>Acknowledge the frustration and offer the resolution. Escalate if the customer repeats the preference</td></tr>
+<tr><td>Competitor price match. The policy covers only own-site price adjustments</td><td>Escalate: the policy is silent on this request</td></tr>
+<tr><td><code>get_customer</code> returns three matches</td><td>Ask for an additional identifier. Do not select by heuristic</td></tr>
+</table>
+
+<h2>The fix: explicit criteria with few-shot examples</h2>
+<pre><code># Before: vague
+"Escalate when the case is too complex or you are not confident."
+
+# After: explicit criteria + examples (Lesson 11)
+"""
+Escalate when: the customer asks for a human; the policy does not cover
+the request; you cannot make progress.
+Resolve when: the policy covers the request, also if it has many steps.
+
+&lt;example&gt;
+customer:  My lamp arrived broken. Photo attached.
+action:    RESOLVE. Standard damage replacement. The policy covers it.
+&lt;/example&gt;
+&lt;example&gt;
+customer:  Another shop sells it for $20 less. Match that price.
+action:    ESCALATE. The policy covers only our own price changes.
+&lt;/example&gt;
+&lt;example&gt;
+customer:  This is the third time! Where is my refund?
+action:    RESOLVE. Acknowledge the frustration. The refund is within
+           your capability. Escalate only if the customer asks again.
+&lt;/example&gt;
+"""</code></pre>
+<p>This is the proportionate first response. A separate classifier model is over-engineered. Sentiment analysis and a confidence threshold measure the wrong thing. When the agent escalates, it sends a structured handoff summary (Lesson 3).</p>
+
+<h2>Practice 1: escalate now?</h2>
+<p class="task-brief">Tick each case that the agent <strong>escalates now</strong>.</p>
+<div class="ps" data-items='[
+ {"label":"\"I want to speak to a human.\"","need":1,"why":"An explicit request. Escalate immediately."},
+ {"label":"An angry customer; a standard refund is available","need":0,"why":"Acknowledge the frustration and offer the refund."},
+ {"label":"A competitor price match; the policy covers only own-site prices","need":1,"why":"A policy gap."},
+ {"label":"A return of three items that the policy covers","need":0,"why":"Complex, but covered. Resolve it."},
+ {"label":"Three tool attempts and no meaningful progress","need":1,"why":"The agent cannot make progress."},
+ {"label":"Two customers match the name J. Smith","need":0,"why":"Ask for an additional identifier."}
+]'></div>
+
+<h2>The scenario: "97% accurate, remove the review"</h2>
+<p>An extraction pipeline has 97% overall accuracy. The team wants to stop human review. Look at the segments first:</p>
+<pre><code>Document type          Volume    Accuracy
+typed invoices         9,000     99.5%
+handwritten receipts     800     71%      ← hidden by the aggregate
+contracts                200     88%
+───────────────────────────────────────
+overall               10,000     97%</code></pre>
+<p>An aggregate metric can mask poor performance on a specific document type or field.</p>
+
+<h2>The human review design</h2>
+<table>
+<tr><th>Step</th><th>What you do</th></tr>
+<tr><td>1. Validate by segment</td><td>Measure accuracy by <strong>document type</strong> and by <strong>field</strong> before you automate</td></tr>
+<tr><td>2. Field-level confidence</td><td>The model outputs a confidence score for each field</td></tr>
+<tr><td>3. Calibrate</td><td>Use a <strong>labeled validation set</strong> to find the threshold where the score predicts correctness</td></tr>
+<tr><td>4. Route</td><td>Low confidence, or an ambiguous or contradictory source → human review. This uses the limited reviewer capacity well</td></tr>
+<tr><td>5. Sample continuously</td><td><strong>Stratified random sampling</strong> of high-confidence extractions. It measures the error rate and finds novel error patterns</td></tr>
+</table>
+<pre><code># 3. Calibrate: at which score is the field correct 99% of the time?
+for threshold in (0.70, 0.80, 0.90, 0.95):
+    accepted = [x for x in validation_set if x.confidence >= threshold]
+    print(threshold, accuracy(accepted))          # pick the threshold that meets the target
+
+# 4. Route
+def route(extraction):
+    if extraction.conflict_detected or any(f.confidence &lt; THRESHOLD[f.name] for f in extraction.fields):
+        return "human_review"
+    return "auto_accept"
+
+# 5. Sample the auto-accepted items, the same share from each document type
+for doc_type in DOC_TYPES:
+    sample = random.sample(auto_accepted[doc_type], k=50)
+    send_to_reviewer(sample)                      # error rate + novel patterns</code></pre>
+<p class="note"><strong>Confidence: three lessons, one rule.</strong> A raw self-reported score is unreliable (Lesson 11, and escalation above). A score becomes useful only after calibration against labeled data. Then it routes review attention. It never replaces the sampling in step 5.</p>
+
+<h2>Practice 2: before you reduce human review</h2>
+<p class="task-brief">Tick each step that a correct design includes.</p>
+<div class="ps" data-items='[
+ {"label":"Accuracy measured by document type and by field","need":1,"why":"The aggregate can mask a weak segment."},
+ {"label":"A decision based on the 97% overall figure","need":0,"why":"The overall figure hides weak segments."},
+ {"label":"Thresholds calibrated with a labeled validation set","need":1,"why":"Calibration makes the score meaningful."},
+ {"label":"The raw model confidence as the threshold, with no calibration","need":0,"why":"A raw self-reported score is unreliable."},
+ {"label":"Stratified random sampling of high-confidence extractions","need":1,"why":"It measures the error rate and finds novel patterns."},
+ {"label":"No more sampling after accuracy is high","need":0,"why":"New document formats can cause new errors."},
+ {"label":"Contradictory source documents routed to a person","need":1,"why":"A person decides which value is correct."}
+]'></div>
+
+<h2>Check yourself</h2>
+<div class="q" data-why="Explicit criteria with few-shot examples fix unclear decision boundaries. This is the proportionate first response.">
+<p>1. The agent escalates easy cases and resolves policy exceptions alone. What is the most effective first fix?</p>
+<button>A self-reported confidence score below threshold</button>
+<button>A separate classifier trained on tickets</button>
+<button data-correct>Explicit criteria with few-shot examples added</button>
+<button>Sentiment analysis with an automatic threshold</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Honor an explicit request for a human immediately, without an investigation first.">
+<p>2. The customer writes: "Let me talk to a human." The issue looks simple. What does the agent do?</p>
+<button data-correct>Escalate immediately, with no investigation first</button>
+<button>Investigate first, then decide about escalation</button>
+<button>Ask for the reason three times</button>
+<button>Resolve it and ignore the request</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="The issue is within the agent's capability. Acknowledge the frustration, offer the resolution, and escalate only if the customer repeats the preference.">
+<p>3. The customer is frustrated but did not ask for a human. The agent can resolve the issue. What does it do?</p>
+<button>Escalate at once because of sentiment</button>
+<button data-correct>Acknowledge frustration and offer a resolution</button>
+<button>Ignore the frustration and continue normally</button>
+<button>End the conversation with an apology</button>
+<div class="fb"></div></div>
+
+<div class="q" data-select="2" data-why="Sentiment and self-reported confidence are unreliable proxies for case complexity. The other two are real triggers.">
+<p>4. Which two are unreliable escalation signals?</p>
+<button>Policy gaps</button>
+<button data-correct>Customer sentiment</button>
+<button>Human requests</button>
+<button data-correct>Self-reported confidence</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="The policy is silent on competitor prices. The agent does not guess. It escalates.">
+<p>5. The customer wants a competitor price match. The policy covers only own-site price adjustments. What does the agent do?</p>
+<button>Approve it; the policy is close</button>
+<button>Deny it; the policy is silent</button>
+<button>Guess what the policy would say</button>
+<button data-correct>Escalate; the policy has a gap</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Multiple matches need clarification. A heuristic selection can act on the wrong account.">
+<p>6. get_customer returns three matches for the name. What does the agent do?</p>
+<button>Pick the most recent account</button>
+<button>Pick the first returned match</button>
+<button data-correct>Ask for an additional identifier</button>
+<button>Escalate to a human immediately</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="An aggregate metric can mask poor performance on specific document types or fields.">
+<p>7. Overall extraction accuracy is 97%. The team wants to remove human review. What is the risk?</p>
+<button>The accuracy is too high already</button>
+<button data-correct>The aggregate can mask weak segments</button>
+<button>The reviewers will lose their skills</button>
+<button>The model will get slower later</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="A labeled validation set shows at which score the field is correct. That gives a calibrated threshold.">
+<p>8. The model outputs a confidence score for each field. How do you set the review threshold?</p>
+<button>Use 0.9 because it sounds safe</button>
+<button>Ask the model for its threshold</button>
+<button>Copy the threshold from another project</button>
+<button data-correct>Calibrate with a labeled validation set</button>
+<div class="fb"></div></div>
+
+<div class="q" data-why="Stratified random sampling of high-confidence extractions measures the continuing error rate and finds novel patterns.">
+<p>9. High-confidence extractions are accepted automatically. How do you measure their error rate continuously?</p>
+<button data-correct>Stratified random sampling of those extractions</button>
+<button>A review of only low-confidence items</button>
+<button>No sampling after the launch date</button>
+<button>A check of the first hundred</button>
+<div class="fb"></div></div>
+<p class="score" id="score"></p>
+
+<h2>Explain it</h2>
+<div class="task">
+<p>Close this page. In the chat, copy this template. Each line needs only a few words.</p>
+<pre><code>1. Three escalation triggers: a request for a human, ..., ...
+2. Two unreliable escalation signals: ... and ...
+3. 97% overall accuracy. Before you reduce review, measure accuracy by ... and ...
+4. Method that measures errors in high-confidence extractions: ...</code></pre>
+</div>
+
+<h2>Read next</h2>
+<p>Primary source: <a href="https://platform.claude.com/docs/en/about-claude/use-case-guides/customer-support-chat">Anthropic: Customer support agent guide</a>. Read "Escalation efficiency" in the evaluation section. Then read <a href="https://platform.claude.com/docs/en/test-and-evaluate/develop-tests">Define success criteria and build evaluations</a>.</p>
+<p>Next: <a href="0016-provenance-and-synthesis.html">Lesson 16</a> covers provenance and multi-source synthesis (task 5.6). It is the last lesson before the practice exam.</p>
+<p class="note">Questions? Ask your teacher in the chat. Examples: what a handoff summary contains, or how large a labeled validation set must be.</p>
+</main>
+<script src="../assets/quiz.js"></script><script src="../assets/pick-set.js"></script></body></html>

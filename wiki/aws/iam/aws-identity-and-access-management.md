@@ -2,9 +2,10 @@
 title: "AWS Identity and Access Management (IAM)"
 kind: system
 domain: aws/iam
+summary: "IAM manages AWS identities, permissions, and credentials through users, groups, roles, and policies."
 status: draft
 tags: [swe, aws, iam, identity, access-control, users, groups, roles, service-roles, policies, policy-language, policy-evaluation, credentials, access-keys, temporary-credentials, credential-report, last-accessed, security-review, root-user, federation, identity-center, mfa, password-policy, best-practices, shared-responsibility, governance]
-sources: ["sources/2026-07-28-iam-introduction-users-groups-policies.md", "sources/2026-07-28-iam-policies.md", "sources/2026-07-28-aws-access-keys-cli-and-sdk.md", "sources/2026-07-28-iam-roles-for-aws-services.md", "sources/2026-07-28-iam-security-tools.md", "sources/2026-07-28-iam-best-practices.md", "sources/2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed-view-data.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/gs-identities-mfa.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html", "https://aws.amazon.com/compliance/shared-responsibility-model/", "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/shared-responsibility.html"]
+sources: ["2026-07-28-iam-introduction-users-groups-policies.md", "2026-07-28-iam-policies.md", "2026-07-28-aws-access-keys-cli-and-sdk.md", "2026-07-28-iam-roles-for-aws-services.md", "2026-07-28-iam-security-tools.md", "2026-07-28-iam-best-practices.md", "2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed-view-data.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/gs-identities-mfa.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_account-policy.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html", "https://aws.amazon.com/compliance/shared-responsibility-model/", "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/shared-responsibility.html"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -241,13 +242,13 @@ by IAM is global.
 - [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
 - [AWS programmatic access: CLI and SDKs](aws-programmatic-access-cli-and-sdks.md)
 - [AWS global infrastructure and service scope](../foundations/aws-global-infrastructure.md)
-- [IAM introduction source](sources/2026-07-28-iam-introduction-users-groups-policies.md)
-- [IAM policies source](sources/2026-07-28-iam-policies.md)
-- [AWS access keys, CLI and SDK source](sources/2026-07-28-aws-access-keys-cli-and-sdk.md)
-- [IAM roles for AWS services source](sources/2026-07-28-iam-roles-for-aws-services.md)
-- [IAM Security Tools source](sources/2026-07-28-iam-security-tools.md)
-- [IAM Best Practices source](sources/2026-07-28-iam-best-practices.md)
-- [Shared Responsibility Model for IAM source](sources/2026-07-28-shared-responsibility-model-for-iam.md)
+- [IAM introduction source](2026-07-28-iam-introduction-users-groups-policies.md)
+- [IAM policies source](2026-07-28-iam-policies.md)
+- [AWS access keys, CLI and SDK source](2026-07-28-aws-access-keys-cli-and-sdk.md)
+- [IAM roles for AWS services source](2026-07-28-iam-roles-for-aws-services.md)
+- [IAM Security Tools source](2026-07-28-iam-security-tools.md)
+- [IAM Best Practices source](2026-07-28-iam-best-practices.md)
+- [Shared Responsibility Model for IAM source](2026-07-28-shared-responsibility-model-for-iam.md)
 - [AWS Principal element reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html)
 - [AWS managed and inline policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html)
 - [AWS policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)

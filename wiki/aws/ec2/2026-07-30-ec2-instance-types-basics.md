@@ -2,9 +2,10 @@
 title: "EC2 Instance Types Basics"
 kind: source
 domain: aws/ec2
+summary: "The course transcript and slides introduce EC2 instance naming and workload categories."
 status: draft
 tags: [swe, aws, ec2, instance-types, compute, memory, storage, sizing, performance, free-tier]
-sources: ["../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-basics.txt", "../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-overview-slide.png", "../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-general-purpose-slide.png", "../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-compute-optimized-slide.png", "../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-memory-optimized-slide.png", "../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-storage-optimized-slide.png"]
+sources: ["../../../raw/aws/ec2/2026-07-30-ec2-instance-types-basics.txt", "../../../raw/aws/ec2/2026-07-30-ec2-instance-types-overview-slide.png", "../../../raw/aws/ec2/2026-07-30-ec2-instance-types-general-purpose-slide.png", "../../../raw/aws/ec2/2026-07-30-ec2-instance-types-compute-optimized-slide.png", "../../../raw/aws/ec2/2026-07-30-ec2-instance-types-memory-optimized-slide.png", "../../../raw/aws/ec2/2026-07-30-ec2-instance-types-storage-optimized-slide.png"]
 updated: 2026-07-30
 confidence: medium
 ---
@@ -18,8 +19,8 @@ confidence: medium
 - Lesson: EC2 Instance Types Basics
 - Instructor and slide copyright: Stephane Maarek
 - Source type: user-provided video transcript and five lesson slides
-- Transcript: [raw transcript](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-basics.txt)
-- Visuals: [overview](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-overview-slide.png), [general purpose](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-general-purpose-slide.png), [compute optimized](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-compute-optimized-slide.png), [memory optimized](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-memory-optimized-slide.png), and [storage optimized](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-storage-optimized-slide.png)
+- Transcript: [raw transcript](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-basics.txt)
+- Visuals: [overview](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-overview-slide.png), [general purpose](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-general-purpose-slide.png), [compute optimized](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-compute-optimized-slide.png), [memory optimized](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-memory-optimized-slide.png), and [storage optimized](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-storage-optimized-slide.png)
 - Ingested: 2026-07-30
 - Current-guidance check: official AWS EC2 documentation reviewed on 2026-07-30
 
@@ -39,7 +40,7 @@ pricing are authoritative for implementation.
 
 ## Source Visuals
 
-![EC2 instance types overview and m5.2xlarge naming slide](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-overview-slide.png)
+![EC2 instance types overview and m5.2xlarge naming slide](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-overview-slide.png)
 
 The overview slide correctly renders `m5.2xlarge` and decomposes it into an
 instance class, generation, and size. Its navigation shows six workload
@@ -47,24 +48,24 @@ categories—general purpose, compute optimized, memory optimized, accelerated
 computing, storage optimized, and HPC optimized—plus separate feature and
 performance topics.
 
-![General-purpose EC2 instance types slide](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-general-purpose-slide.png)
+![General-purpose EC2 instance types slide](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-general-purpose-slide.png)
 
 The general-purpose slide emphasizes a balance of compute, memory, and
 networking for varied workloads such as web servers and code repositories. Its
 family strip and `t2.micro` course choice are source-era snapshots.
 
-![Compute-optimized EC2 instance types slide](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-compute-optimized-slide.png)
+![Compute-optimized EC2 instance types slide](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-compute-optimized-slide.png)
 
 The compute-optimized slide associates high-performance processors with batch
 processing, media transcoding, high-performance web serving, HPC, scientific
 modeling or machine learning, and dedicated game servers.
 
-![Memory-optimized EC2 instance types slide](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-memory-optimized-slide.png)
+![Memory-optimized EC2 instance types slide](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-memory-optimized-slide.png)
 
 The memory-optimized slide focuses on large in-memory data sets, databases,
 distributed caches, business intelligence, and real-time processing.
 
-![Storage-optimized EC2 instance types slide](../../../../raw/aws/ec2/2026-07-30-ec2-instance-types-storage-optimized-slide.png)
+![Storage-optimized EC2 instance types slide](../../../raw/aws/ec2/2026-07-30-ec2-instance-types-storage-optimized-slide.png)
 
 The storage-optimized slide focuses on high sequential throughput and
 low-latency random I/O against large local data sets. The named OLTP, database,
@@ -149,7 +150,7 @@ availability, storage semantics, benchmarking, or cost analysis.
 
 ## Impacted Pages
 
-- [Amazon EC2 instance types](../amazon-ec2-instance-types.md) —
+- [Amazon EC2 instance types](amazon-ec2-instance-types.md) —
   durable naming, taxonomy, selection, performance, storage, and staleness
   guidance.
 

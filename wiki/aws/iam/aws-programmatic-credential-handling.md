@@ -2,9 +2,10 @@
 title: "AWS programmatic credential handling"
 kind: practice
 domain: aws/iam
+summary: "Prefer temporary or federated AWS credentials and keep long-lived access keys out of code and shared storage."
 status: draft
 tags: [swe, aws, iam, roles, credentials, access-keys, security, temporary-credentials, credential-report, security-review, shared-responsibility, credential-lifecycle]
-sources: ["sources/2026-07-28-aws-access-keys-cli-and-sdk.md", "sources/2026-07-28-iam-roles-for-aws-services.md", "sources/2026-07-28-iam-security-tools.md", "sources/2026-07-28-iam-best-practices.md", "sources/2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html", "https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html", "https://docs.aws.amazon.com/cli/latest/reference/iam/create-access-key.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id-credentials-access-keys-update.html"]
+sources: ["2026-07-28-aws-access-keys-cli-and-sdk.md", "2026-07-28-iam-roles-for-aws-services.md", "2026-07-28-iam-security-tools.md", "2026-07-28-iam-best-practices.md", "2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html", "https://docs.aws.amazon.com/sdkref/latest/guide/standardized-credentials.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html", "https://docs.aws.amazon.com/cli/latest/reference/iam/create-access-key.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id-credentials-access-keys-update.html"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -153,11 +154,11 @@ If a credential may have been exposed:
 - [AWS IAM roles for services](aws-iam-roles-for-services.md)
 - [Reviewing AWS IAM credentials and permissions](reviewing-aws-iam-credentials-and-permissions.md)
 - [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
-- [Source lesson](sources/2026-07-28-aws-access-keys-cli-and-sdk.md)
-- [IAM roles for AWS services source](sources/2026-07-28-iam-roles-for-aws-services.md)
-- [IAM Security Tools source](sources/2026-07-28-iam-security-tools.md)
-- [IAM Best Practices source](sources/2026-07-28-iam-best-practices.md)
-- [Shared Responsibility Model for IAM source](sources/2026-07-28-shared-responsibility-model-for-iam.md)
+- [Source lesson](2026-07-28-aws-access-keys-cli-and-sdk.md)
+- [IAM roles for AWS services source](2026-07-28-iam-roles-for-aws-services.md)
+- [IAM Security Tools source](2026-07-28-iam-security-tools.md)
+- [IAM Best Practices source](2026-07-28-iam-best-practices.md)
+- [Shared Responsibility Model for IAM source](2026-07-28-shared-responsibility-model-for-iam.md)
 - [AWS IAM security best practices](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html)
 - [AWS CLI authentication options](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html)
 - [AWS secure access-key guidance](https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html)
