@@ -2,9 +2,10 @@
 title: "AWS IAM roles for services"
 kind: concept
 domain: aws/iam
+summary: "An IAM service role lets a trusted service perform scoped actions with temporary credentials."
 status: draft
 tags: [swe, aws, iam, roles, service-roles, trust-policy, temporary-credentials, passrole, ec2, lambda, cloudformation]
-sources: ["sources/2026-07-28-iam-roles-for-aws-services.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html", "https://docs.aws.amazon.com/lambda/latest/dg/concepts-basics.html", "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-servicerole.html"]
+sources: ["2026-07-28-iam-roles-for-aws-services.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html", "https://docs.aws.amazon.com/lambda/latest/dg/concepts-basics.html", "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-servicerole.html"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -116,7 +117,7 @@ patterns; it does not establish that each named role is service-linked.
 - [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
 - [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
 - [AWS programmatic access: CLI and SDKs](aws-programmatic-access-cli-and-sdks.md)
-- [Source lesson](sources/2026-07-28-iam-roles-for-aws-services.md)
+- [Source lesson](2026-07-28-iam-roles-for-aws-services.md)
 - [AWS IAM role concepts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
 - [AWS `iam:PassRole` guidance](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html)
 - [IAM roles for Amazon EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)

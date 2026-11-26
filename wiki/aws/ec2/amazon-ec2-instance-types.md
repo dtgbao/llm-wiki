@@ -2,9 +2,10 @@
 title: "Amazon EC2 instance types"
 kind: system
 domain: aws/ec2
+summary: "Match EC2 instance families and sizes to measured compute, memory, storage, network, and accelerator needs."
 status: draft
 tags: [swe, aws, ec2, instance-types, compute, memory, storage, accelerators, hpc, sizing, performance, cost]
-sources: ["sources/2026-07-30-ec2-instance-types-basics.md", "https://aws.amazon.com/ec2/instance-types/", "https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-types.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/gp.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/co.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/mo.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-lifetime.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-free-tier-usage.html", "https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html"]
+sources: ["2026-07-30-ec2-instance-types-basics.md", "https://aws.amazon.com/ec2/instance-types/", "https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-types.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/gp.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/co.html", "https://docs.aws.amazon.com/ec2/latest/instancetypes/mo.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-lifetime.html", "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-free-tier-usage.html", "https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html"]
 updated: 2026-07-30
 confidence: medium
 ---
@@ -161,7 +162,7 @@ Source: [AWS EC2 Free Tier usage](https://docs.aws.amazon.com/AWSEC2/latest/User
 
 ## Related
 
-- [EC2 Instance Types Basics source](sources/2026-07-30-ec2-instance-types-basics.md)
+- [EC2 Instance Types Basics source](2026-07-30-ec2-instance-types-basics.md)
 - [AWS global infrastructure and service scope](../foundations/aws-global-infrastructure.md)
 - [AWS EC2 instance-types catalog](https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-types.html)
 - [AWS Compute Optimizer EC2 recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/view-ec2-recommendations.html)

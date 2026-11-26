@@ -2,9 +2,10 @@
 title: "AWS shared responsibility model for IAM"
 kind: concept
 domain: aws/iam
+summary: "AWS operates IAM infrastructure while customers configure identities, credentials, permissions, and monitoring."
 status: draft
 tags: [swe, aws, iam, security, shared-responsibility, governance, identity, permissions, mfa, credentials, monitoring, compliance]
-sources: ["sources/2026-07-28-shared-responsibility-model-for-iam.md", "https://aws.amazon.com/compliance/shared-responsibility-model/", "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/shared-responsibility.html", "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/security.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/gs-identities-mfa.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id-credentials-access-keys-update.html"]
+sources: ["2026-07-28-shared-responsibility-model-for-iam.md", "https://aws.amazon.com/compliance/shared-responsibility-model/", "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/shared-responsibility.html", "https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/security.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/gs-identities-mfa.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/securing_access-keys.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id-credentials-access-keys-update.html"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -144,7 +145,7 @@ The course says customers enable MFA “on all accounts.” More precisely:
 - [AWS IAM security baseline](aws-iam-security-baseline.md)
 - [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
 - [Reviewing AWS IAM credentials and permissions](reviewing-aws-iam-credentials-and-permissions.md)
-- [Shared Responsibility Model for IAM source](sources/2026-07-28-shared-responsibility-model-for-iam.md)
+- [Shared Responsibility Model for IAM source](2026-07-28-shared-responsibility-model-for-iam.md)
 - [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/)
 - [AWS Well-Architected shared responsibility](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/shared-responsibility.html)
 - [AWS security design principles](https://docs.aws.amazon.com/wellarchitected/latest/security-pillar/security.html)

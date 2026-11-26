@@ -2,9 +2,10 @@
 title: "IAM Policies"
 kind: source
 domain: aws/iam
+summary: "The lesson explains IAM policy structure and how policies attached to users and groups contribute to permissions."
 status: draft
 tags: [swe, aws, iam, policies, access-control, inheritance, policy-language]
-sources: ["../../../../raw/aws/iam/2026-07-28-iam-policies.txt", "../../../../raw/aws/iam/2026-07-28-iam-policy-inheritance-slide.png", "../../../../raw/aws/iam/2026-07-28-iam-policy-structure-slide.png"]
+sources: ["../../../raw/aws/iam/2026-07-28-iam-policies.txt", "../../../raw/aws/iam/2026-07-28-iam-policy-inheritance-slide.png", "../../../raw/aws/iam/2026-07-28-iam-policy-structure-slide.png"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -18,7 +19,7 @@ confidence: medium
 - Section: `4: IAM and AWS CLI`
 - Lesson: `IAM Policies`
 - Instructor: Stephane Maarek, identified by the slide copyright.
-- Assets: [transcript](../../../../raw/aws/iam/2026-07-28-iam-policies.txt), [policy inheritance slide](../../../../raw/aws/iam/2026-07-28-iam-policy-inheritance-slide.png), and [policy structure slide](../../../../raw/aws/iam/2026-07-28-iam-policy-structure-slide.png)
+- Assets: [transcript](../../../raw/aws/iam/2026-07-28-iam-policies.txt), [policy inheritance slide](../../../raw/aws/iam/2026-07-28-iam-policy-inheritance-slide.png), and [policy structure slide](../../../raw/aws/iam/2026-07-28-iam-policy-structure-slide.png)
 - Ingested: 2026-07-28
 
 ## Summary
@@ -37,9 +38,9 @@ one or more `Statement` objects. Statement elements include optional `Sid`,
 
 ## Source Visuals
 
-![IAM policy inheritance course slide](../../../../raw/aws/iam/2026-07-28-iam-policy-inheritance-slide.png)
+![IAM policy inheritance course slide](../../../raw/aws/iam/2026-07-28-iam-policy-inheritance-slide.png)
 
-![IAM policy structure course slide](../../../../raw/aws/iam/2026-07-28-iam-policy-structure-slide.png)
+![IAM policy structure course slide](../../../raw/aws/iam/2026-07-28-iam-policy-structure-slide.png)
 
 ## SWE Extraction
 
@@ -127,10 +128,10 @@ The slide's complete example is:
 
 ## Impacted Pages
 
-- [AWS Identity and Access Management (IAM)](../aws-identity-and-access-management.md)
+- [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
   — expands policy attachments, inheritance, document anatomy, policy types,
   and effective evaluation.
-- [Least-privilege access with AWS IAM](../least-privilege-access-with-aws-iam.md)
+- [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
   — adds placement guidance for shared and inline policies plus aggregate-access
   review.
 

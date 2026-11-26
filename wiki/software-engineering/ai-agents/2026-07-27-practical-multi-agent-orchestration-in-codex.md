@@ -2,6 +2,7 @@
 title: "Practical multi-agent orchestration in Codex"
 kind: source
 domain: software-engineering/ai-agents
+summary: "The article describes role-based Codex delegation with bounded assignments, distinct owners, and coordinated verification."
 status: draft
 tags: [swe, multi-agent, codex, orchestration, delegation]
 sources: ["https://x.com/pvncher/status/2080707291603407077"]
@@ -92,7 +93,7 @@ empirically rather than maximizing reasoning on every task.
 
 ## Impacted Pages
 
-- [Multi-agent orchestration blueprint](../multi-agent-orchestration.md)
+- [Multi-agent orchestration blueprint](multi-agent-orchestration.md)
   — reusable roles, assignment protocol, context rules, and failure checks.
 
 ## Open Questions

@@ -2,9 +2,10 @@
 title: "Selecting an AWS Region"
 kind: practice
 domain: aws/foundations
+summary: "Select an AWS Region based on compliance, required service availability, latency, and total cost."
 status: draft
 tags: [swe, aws, cloud, regions, compliance, latency, pricing]
-sources: ["sources/2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md"]
+sources: ["2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -64,4 +65,4 @@ as the source of truth. Verify both at decision and deployment time.
 ## Related
 
 - [AWS global infrastructure and service scope](aws-global-infrastructure.md)
-- [Source transcript](sources/2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md)
+- [Source transcript](2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md)

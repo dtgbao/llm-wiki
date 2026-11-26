@@ -2,9 +2,10 @@
 title: "Multi-agent orchestration blueprint"
 kind: blueprint
 domain: software-engineering/ai-agents
+summary: "Use a coordinator and reasoning-matched agents for independent work while retaining clear ownership and approvals."
 status: draft
 tags: [swe, multi-agent, orchestration, delegation, codex]
-sources: ["sources/2026-07-27-practical-multi-agent-orchestration-in-codex.md"]
+sources: ["2026-07-27-practical-multi-agent-orchestration-in-codex.md"]
 updated: 2026-07-27
 confidence: high
 ---
@@ -130,4 +131,4 @@ These choices carry different risks:
 ## Source
 
 Synthesized from
-[Practical multi-agent orchestration in Codex](sources/2026-07-27-practical-multi-agent-orchestration-in-codex.md).
+[Practical multi-agent orchestration in Codex](2026-07-27-practical-multi-agent-orchestration-in-codex.md).

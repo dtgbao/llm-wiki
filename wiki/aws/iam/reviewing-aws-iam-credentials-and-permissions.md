@@ -2,9 +2,10 @@
 title: "Reviewing AWS IAM credentials and permissions"
 kind: practice
 domain: aws/iam
+summary: "Use reports and last-accessed signals to find stale AWS credentials and excess permissions without disrupting valid workloads."
 status: draft
 tags: [swe, aws, iam, security, credential-report, last-accessed, access-review, least-privilege, audit, shared-responsibility, monitoring]
-sources: ["sources/2026-07-28-iam-security-tools.md", "sources/2026-07-28-iam-best-practices.md", "sources/2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed-view-data.html", "https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-concepts.html", "https://aws.amazon.com/compliance/shared-responsibility-model/"]
+sources: ["2026-07-28-iam-security-tools.md", "2026-07-28-iam-best-practices.md", "2026-07-28-shared-responsibility-model-for-iam.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed-view-data.html", "https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-concepts.html", "https://aws.amazon.com/compliance/shared-responsibility-model/"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -124,9 +125,9 @@ the need for owner validation and controlled remediation.
 - [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
 - [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
 - [Least-privilege access with AWS IAM](least-privilege-access-with-aws-iam.md)
-- [IAM Security Tools source](sources/2026-07-28-iam-security-tools.md)
-- [IAM Best Practices source](sources/2026-07-28-iam-best-practices.md)
-- [Shared Responsibility Model for IAM source](sources/2026-07-28-shared-responsibility-model-for-iam.md)
+- [IAM Security Tools source](2026-07-28-iam-security-tools.md)
+- [IAM Best Practices source](2026-07-28-iam-best-practices.md)
+- [Shared Responsibility Model for IAM source](2026-07-28-shared-responsibility-model-for-iam.md)
 - [AWS Shared Responsibility Model](https://aws.amazon.com/compliance/shared-responsibility-model/)
 - [AWS credential-report documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html)
 - [AWS last-accessed guidance](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html)

@@ -2,9 +2,10 @@
 title: "Least-privilege access with AWS IAM"
 kind: practice
 domain: aws/iam
+summary: "Grant only the AWS actions, resources, and conditions a workload requires, then refine access using evidence."
 status: draft
 tags: [swe, aws, iam, roles, service-roles, security, access-control, least-privilege, policy-evaluation, passrole, last-accessed, access-review, federation, identity-center, mfa, best-practices]
-sources: ["sources/2026-07-28-iam-introduction-users-groups-policies.md", "sources/2026-07-28-iam-policies.md", "sources/2026-07-28-iam-roles-for-aws-services.md", "sources/2026-07-28-iam-security-tools.md", "sources/2026-07-28-iam-best-practices.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed-view-data.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"]
+sources: ["2026-07-28-iam-introduction-users-groups-policies.md", "2026-07-28-iam-policies.md", "2026-07-28-iam-roles-for-aws-services.md", "2026-07-28-iam-security-tools.md", "2026-07-28-iam-best-practices.md", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_last-accessed-view-data.html", "https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html"]
 updated: 2026-07-28
 confidence: high
 ---
@@ -164,11 +165,11 @@ cadence, automation, CloudTrail validation, or IAM Access Analyzer.
 - [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
 - [AWS IAM roles for services](aws-iam-roles-for-services.md)
 - [Reviewing AWS IAM credentials and permissions](reviewing-aws-iam-credentials-and-permissions.md)
-- [IAM introduction source](sources/2026-07-28-iam-introduction-users-groups-policies.md)
-- [IAM policies source](sources/2026-07-28-iam-policies.md)
-- [IAM roles for AWS services source](sources/2026-07-28-iam-roles-for-aws-services.md)
-- [IAM Security Tools source](sources/2026-07-28-iam-security-tools.md)
-- [IAM Best Practices source](sources/2026-07-28-iam-best-practices.md)
+- [IAM introduction source](2026-07-28-iam-introduction-users-groups-policies.md)
+- [IAM policies source](2026-07-28-iam-policies.md)
+- [IAM roles for AWS services source](2026-07-28-iam-roles-for-aws-services.md)
+- [IAM Security Tools source](2026-07-28-iam-security-tools.md)
+- [IAM Best Practices source](2026-07-28-iam-best-practices.md)
 - [AWS managed and inline policy reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html)
 - [AWS policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)
 - [AWS IAM role concepts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)

@@ -2,9 +2,10 @@
 title: "AWS global infrastructure and service scope"
 kind: system
 domain: aws/foundations
+summary: "AWS Regions set service scope, Availability Zones isolate failures, and edge locations move delivery closer to users."
 status: draft
 tags: [swe, aws, cloud, infrastructure, regions, availability-zones, edge]
-sources: ["sources/2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md", "../iam/sources/2026-07-28-iam-introduction-users-groups-policies.md"]
+sources: ["2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md", "../iam/2026-07-28-iam-introduction-users-groups-policies.md"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -100,5 +101,5 @@ regional service tables are authoritative for a new design.
 
 - [Selecting an AWS Region](selecting-an-aws-region.md)
 - [AWS Identity and Access Management (IAM)](../iam/aws-identity-and-access-management.md)
-- [Source transcript](sources/2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md)
-- [IAM introduction source](../iam/sources/2026-07-28-iam-introduction-users-groups-policies.md)
+- [Source transcript](2026-07-28-ultimate-aws-certified-developer-associate-2026-dva-c02-aws-cloud-overview-regio.md)
+- [IAM introduction source](../iam/2026-07-28-iam-introduction-users-groups-policies.md)

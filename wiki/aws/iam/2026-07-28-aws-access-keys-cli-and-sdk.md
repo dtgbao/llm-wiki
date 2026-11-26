@@ -2,9 +2,10 @@
 title: "AWS Access Keys, CLI and SDK"
 kind: source
 domain: aws/iam
+summary: "The lesson distinguishes the console, CLI, and SDK and explains how AWS access keys authenticate programmatic calls."
 status: draft
 tags: [swe, aws, iam, access-keys, cli, sdk, credentials, automation]
-sources: ["../../../../raw/aws/iam/2026-07-28-aws-access-keys-cli-and-sdk.txt", "../../../../raw/aws/iam/2026-07-28-aws-access-methods-slide.png"]
+sources: ["../../../raw/aws/iam/2026-07-28-aws-access-keys-cli-and-sdk.txt", "../../../raw/aws/iam/2026-07-28-aws-access-methods-slide.png"]
 updated: 2026-07-28
 confidence: medium
 ---
@@ -18,7 +19,7 @@ confidence: medium
 - Section: `4: IAM and AWS CLI`
 - Lesson: `AWS Access Keys, CLI and SDK`
 - Instructor: Stephane Maarek, identified by the slide copyright.
-- Assets: [transcript](../../../../raw/aws/iam/2026-07-28-aws-access-keys-cli-and-sdk.txt) and [access methods slide](../../../../raw/aws/iam/2026-07-28-aws-access-methods-slide.png)
+- Assets: [transcript](../../../raw/aws/iam/2026-07-28-aws-access-keys-cli-and-sdk.txt) and [access methods slide](../../../raw/aws/iam/2026-07-28-aws-access-methods-slide.png)
 - Ingested: 2026-07-28
 
 ## Summary
@@ -39,7 +40,7 @@ workloads.
 
 ## Source Visual
 
-![AWS console, CLI, SDK, and access-key course slide](../../../../raw/aws/iam/2026-07-28-aws-access-methods-slide.png)
+![AWS console, CLI, SDK, and access-key course slide](../../../raw/aws/iam/2026-07-28-aws-access-methods-slide.png)
 
 ## SWE Extraction
 
@@ -119,11 +120,11 @@ workloads.
 
 ## Impacted Pages
 
-- [AWS programmatic access: CLI and SDKs](../aws-programmatic-access-cli-and-sdks.md)
+- [AWS programmatic access: CLI and SDKs](aws-programmatic-access-cli-and-sdks.md)
   — durable tool boundaries, API flow, and credential-provider model.
-- [AWS programmatic credential handling](../aws-programmatic-credential-handling.md)
+- [AWS programmatic credential handling](aws-programmatic-credential-handling.md)
   — temporary-first credential selection and long-lived-key safeguards.
-- [AWS Identity and Access Management (IAM)](../aws-identity-and-access-management.md)
+- [AWS Identity and Access Management (IAM)](aws-identity-and-access-management.md)
   — adds IAM access-key and temporary-credential boundaries.
 
 ## Open Questions
